@@ -1,0 +1,91 @@
+<nb-card>
+    <nb-card-header>
+      Stocktransfer Approved List
+    </nb-card-header>
+    <nb-card-body>
+                <div class="table-responsive table-border">
+                  <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th style="width: 10px"></th>
+                        <th>Serial</th>
+                        <th>Date</th>
+                        <th>From Branch</th>
+                        <th>From Company</th>
+                        <th>To Branch</th>
+                        <th>To Company</th>
+                        <th>Approved Date</th>
+                          <th>Approved By</th>
+                        <th style="width: 12%">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let branch of stocktransfereall; let num = index" >
+                        <td>
+                        </td>
+                        <td>{{num+1}} </td>
+                        <td >{{branch.transferDate  | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{branch.fromBranchName}}</td>
+                        <td>{{branch.fromCompanyName}}</td>
+                        <td>{{branch.toBranchName}}</td>
+                        <td>{{branch.toCompanyName}}</td>
+                        <td>{{branch.approvedDate  | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{branch.approvedBy}}</td>
+                        <td class="actions">
+                          <i class="btn  btn-success  btn-sm" *ngIf="(branch.isApproved==null)" (click)="open2(dialog,branch)">Waiting For Approval</i>
+                          <i class="label label-success" *ngIf="branch.isApproved==true">Approved</i>
+                          <i class="label label-warning" *ngIf="branch.isApproved==false">Reject</i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </nb-card-body>
+            </nb-card>
+            <ng-template #dialog let-data let-ref="dialogRef">
+              <nb-card>
+                <nb-card-header>Approval</nb-card-header>
+                <nb-card-body>
+                  <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-1 control-label">Date:</div>
+                    <div class="col-md-3" style="text-align:left;">{{ data.transferDate  | date: 'dd/MM/yyyy'}}</div>
+                    <div class="col-md-3 control-label">Employee Name:</div>
+                    <div class="col-md-3">{{ data.employeeName}}</div>
+                  </div>
+                </div>
+                  <div class="table-responsive table-border">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="width: 32px"></th>
+                          <th>Serial</th>
+                          <th>Category Name</th>
+                          <th>Product Name</th>
+                          <th>Quantity</th>
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let branch of data.stockTransferDetails; let num = index" >
+                          <td>
+                          </td>
+                          <td>{{num+1}} </td>
+                          <td>{{branch.categoryName}}</td>
+                          <td>{{branch.productName}}</td>
+                          <td>{{branch.stQty}}</td>
+                        
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </nb-card-body>
+                <nb-card-footer class="pull-right" style="text-align:right">
+                  <div >
+                  <button class="btn btn-success" (click)="onApproved(data,ref)" *ngIf="(data.isApproved==false) || (data.isApproved==null)" >Approved</button>
+                  <button class="btn btn-warning" (click)="onRejected(data,ref)" *ngIf="(data.isApproved==false) || (data.isApproved==null)" >Reject</button>
+                  <button nbButton (click)="ref.close()">Close </button>
+                </div>
+                </nb-card-footer>
+              </nb-card>
+            </ng-template>

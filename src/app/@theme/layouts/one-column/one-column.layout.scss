@@ -1,0 +1,13 @@
+@import '../../styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+  .groupbutton{
+    padding:4px!important; margin:4px!important;
+  }
+  
+  nb-layout-column {
+    padding: 0px !important;
+  }
+}

@@ -1,0 +1,159 @@
+<!-- <div class="row">
+  <div class="col-md-12" class="alert alert-success">Dashboard</div>
+  <div class="col-md-5">
+    <div class="row">
+      <div class="col-md-6"> -->
+<!-- <ngx-profit-card></ngx-profit-card>-->
+<!-- <div class="table-responsive table-border">
+       <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+        <tr>
+          <th>Serial</th>
+          <th>ProductName</th>
+          <th>CategoryName</th>
+          <th>SubCategoryName</th>
+          <th>UOMName</th>
+          <th>Pstock</th>
+          <th>ReOrderlevel</th>
+          <th>CPU</th>
+        </tr>
+       </table>
+      </div>
+      </div>
+      <div class="col-md-6"> -->
+<!--   <ngx-earning-card></ngx-earning-card>-->
+
+<!-- </div>
+    </div> -->
+
+<!--    <ngx-traffic-reveal-card></ngx-traffic-reveal-card>-->
+<!-- </div>
+
+  <div class="col-xxl-7"> -->
+<!--     <ngx-ecommerce-charts></ngx-ecommerce-charts>-->
+<!-- </div>
+</div>
+
+<div class="row">
+  <div class="col-xxl-9"> -->
+<!--    <ngx-country-orders></ngx-country-orders>-->
+<!-- </div>
+
+  <div class="col-xxl-3"> -->
+<!--    <ngx-progress-section></ngx-progress-section>-->
+<!-- </div>
+</div>
+
+<div class="row">
+  <div class="col-xxl-9"> -->
+<!--     <ngx-ecommerce-visitors-analytics></ngx-ecommerce-visitors-analytics>-->
+<!-- </div>
+
+  <div class="col-xxl-3"> -->
+<!--     <ngx-user-activity></ngx-user-activity>-->
+<!-- </div>
+</div> -->
+
+
+
+
+
+<nb-card>
+  <nb-card-header>
+    Reordering Level
+  </nb-card-header>
+  <nb-card-body>
+    <div style="">
+      <div class="table-responsive ">
+        <table id='table' datatable class="table table-bordered ">
+          <thead>
+            <tr>
+              <th>No.</th>
+
+              <th>Product Name</th>
+              <!--    <th>Category Name</th>
+                      <th>Sub Category Name</th>
+                      <th>Uom Name</th>-->
+              <th style="color: red;">Stock</th>
+              <th>ReOrder Level</th>
+              <!--  <th>CPU</th>-->
+              <!-- <th style="width: 10%"></th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let purchaseorder of reorderinglevelall; let num = index">
+              <td>{{num+1}}</td>
+
+              <td>{{purchaseorder.productName}}</td>
+              <!--  <td >{{purchaseorder.categoryName }}</td>
+                      <td>{{purchaseorder.subCategoryName}}</td>
+                      <td>{{purchaseorder.uomName}}</td>-->
+              <td style="color: red;">{{purchaseorder.pstock}}{{purchaseorder.uomName}}</td>
+              <td>{{purchaseorder.reOrderlevel}}{{purchaseorder.uomName}}</td>
+              <!-- <td>{{purchaseorder.cpu}}</td>
+                      <td class="actions">
+                        <i class="btn  btn-success btn-sm" *ngIf="(purchaseorder.isQC==false) || (purchaseorder.isQC==null)" (click)="open2(dialog,purchaseorder)">QC Pending</i>
+                        <i class="btn  btn-warning btn-sm" *ngIf="purchaseorder.isQC==true" (click)="open2(dialog,purchaseorder)">QC</i>
+                      </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Purchase Order QC</nb-card-header>
+    <nb-card-body>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-1 control-label">Date : </div>
+          <div class="col-md-3">{{ data.poDate | date: 'dd/MM/yyyy'}}</div>
+          <div class="col-md-2 control-label">Supplier Name: </div>
+          <div class="col-md-3">{{ data.supplierName}}</div>
+        </div>
+      </div>
+      <div class="table-responsive table-border">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width: 32px"></th>
+              <th>Serial</th>
+              <th>Category Name</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Return</th>
+              <th style="display: none;">Dis QTY</th>
+              <th style="display: none;">Dis Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let branch of data.purchaseOrderDetails; let num = index">
+              <td>
+              </td>
+              <td>{{num+1}} </td>
+              <td>{{branch.categoryName}}</td>
+              <td>{{branch.productName}}</td>
+              <td>{{branch.porcvQty}}</td>
+              <td>{{branch.pqcrQty}}</td>
+              <td *ngIf="data.isQC==true">{{branch.pQCRQty}}</td>
+              <td *ngIf="data.isQC==true">{{branch.PQCDisQty}}</td>
+              <td *ngIf="data.isQC==true">{{branch.pQCDisAmount}}</td>
+              <td><input nbInput fullWidth fieldSize="small" class=" input-sm"
+                  *ngIf="(data.isQC==false) || (data.isQC==null)" [(ngModel)]="branch.pQCRQty" /> </td>
+              <td style="display: none;"><input nbInput fullWidth fieldSize="small" class=" input-sm"
+                  *ngIf="(data.isQC==false) || (data.isQC==null)" [(ngModel)]="branch.PQCDisQty" /> </td>
+              <td style="display: none;"><input nbInput fullWidth fieldSize="small" class=" input-sm"
+                  *ngIf="(data.isQC==false) || (data.isQC==null)" [(ngModel)]="branch.pQCDisAmount" /> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button class="btn btn-success" (click)="onApproved(data,ref)" *ngIf="(data.isQC==false) || (data.isQC==null)">QC
+        Complete</button>
+      <button nbButton (click)="ref.close()">Close </button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

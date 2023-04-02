@@ -1,0 +1,145 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true"> <i class="fa fa-plus"></i>
+            Add</button>
+          <legend class="rounded"> Product Supplier</legend>
+          <div class="product-supplier-list">
+            <div class="table-responsive ">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th class="sl-th">Serial</th>
+                    <th>Supplier Name</th>
+                    <th>Product Name</th>
+                    <th>CPU</th>
+                    <th class="actions">actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let supplierproduct of supplierProductall; let num = index">
+
+                    <td class="sl-td">{{num+1}}</td>
+                    <td>{{supplierproduct.supplierName}}</td>
+                    <td>{{supplierproduct.productName}}</td>
+                    <td>{{supplierproduct.cpu}}</td>
+
+                    <td class="actions">
+                      <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(supplierproduct)">
+                        <i class=" fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="btnDelete(supplierproduct)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+
+            <legend class="rounded">add product supplier</legend>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label class="control-label" for="form-control-1">Supplier Name</label>
+                  <select class="form-control" (change)="onSelectSupply($event.target.value)"
+                    [ngClass]="{ 'is-invalid': submitted && f.supplierid.errors }">
+                    <option [value]="0"> Select Option</option>
+                    <option *ngFor="let supplier of supplierall; let num = index" [value]="supplier.id">
+                      {{supplier.supplierName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label class="control-label" for="form-control-1">Category Name</label>
+                  <nb-select multiple placeholder="Multiple Select" (selectedChange)="onSelect($event)">
+                    <nb-option class="form-control" *ngFor="let category of categoryall; let num = index"
+                      [value]="category.id">{{category.name}}
+                    </nb-option>
+                  </nb-select>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label class="control-label" for="form-control-1">Subcategory Name</label>
+                  <nb-select multiple placeholder="Multiple Select" (selectedChange)="onSelectCategory($event)">
+                    <nb-option *ngFor="let subcategory of subcategoryallfilter; let num = index"
+                      [value]="subcategory.id">{{subcategory.name}}
+                    </nb-option>
+                  </nb-select>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label class="control-label" for="form-control-1">Product Name</label>
+                  <nb-select multiple placeholder="Multiple Select" (selectedChange)="onSelectProduct($event)">
+                    <nb-option *ngFor="let productid of productallfilter; let num = index"
+                      [value]="productid.productId">{{productid.productName}}
+                    </nb-option>
+                  </nb-select>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="text-center">
+
+                  <button class="btn cancel-btn mr-3" type="reset" (click)="onReset()">Cancel</button>
+                  <button class="btn save-btn" (click)="addfunProductSup()">Add</button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="table-responsive mt-20">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+
+                      <th class="sl-th">Serial</th>
+                      <th>Supplier Name</th>
+                      <th>Category Name</th>
+                      <th>SubCategory Name</th>
+                      <th>Product Name</th>
+                      <th>CPU</th>
+                      <th class="actions">actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let supplierproduct of productsupfinallist; let num = index">
+
+                      <td class="sl-td">{{num+1}}</td>
+                      <td>{{supplierproduct.supplyName}}</td>
+                      <td>{{supplierproduct.categoryName}}</td>
+                      <td>{{supplierproduct.subcategoryName}}</td>
+                      <td>{{supplierproduct.productName}}</td>
+                      <td><input #inputValue type="text" class="form-control" [(ngModel)]="supplierproduct.cpu"></td>
+                      <td class="actions">
+                        <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(supplierproduct)">
+                          <i class=" fa fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="btnDelete(supplierproduct)">
+                          <i class=" fa fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="text-center">
+                <button class="btn save-btn" (click)="onSave()">Save</button>
+              </div>
+            </div>
+          </fieldset>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>

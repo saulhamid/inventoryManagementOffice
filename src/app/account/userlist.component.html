@@ -1,0 +1,296 @@
+<nb-card>
+  <nb-card-header>
+    Userss <span><button class="btn btn-primary float-right" (click)="btnadd()" *ngIf="listshow==true">Add</button>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="table-responsive table-border" *ngIf="listshow==true; else elseBlock">
+
+      <input type="text"  [(ngModel)]="empName" [value]="empName" style="margin-bottom: 2%;" placeholder="Search" (keyup.enter)="onEnterSearch()">
+      <button  (click)="searchData()">Search</button>
+      <button  (click)="clearSearch()">Clear</button>
+
+      <!-- (keyup)="onKeyUp($event)"   -->
+
+      <table class="table table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id='table'>
+        <thead>
+          <tr>
+            <th style="width: 32px"></th>
+            <th>Serial</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Join Date</th>
+            <th>User Name</th>
+            <th>Role</th>
+            <th>Permission</th>
+            <th style="width: 10%"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of userall; let num = index">
+            
+            <td>
+            </td>
+            <td>{{num+1}}</td>
+            <td>{{user.employeeName}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.joinDate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{user.userName}}</td>
+            <td>{{user.roleName}}</td>
+            <td><a style="text-decoration: underline;" (click)="routetousermenu(user)">Menus</a></td>
+            <td class="actions">
+              <i class="btn btn-warning btn-sm fa fa-edit" (click)="btnEdit(user)"></i>
+              <i class="btn btn-danger btn-sm fa fa-trash" (click)="btnDelete(user.aspuserId)"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ng-template #elseBlock >
+      <div  *ngIf="loadingVisible==false; else elseBlock1">
+        <div class="panel-body">
+          <div class="xs-mt-10 xs-mb-10">
+            <div class="row">
+              <div class="col-md-12">
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                  <div class="form-group">
+                    <div class="row col-md-12">
+                      <label class="col-sm-2 control-label" for="form-control-1">Employee</label>
+                      <div class="col-sm-3" >
+                        <select formControlName="employeeId" class="form-control">
+                          <option value="">Choose Option</option>
+                          <option *ngFor="let emp of employeeall; let num = index" [value]="emp.employeeId">
+                            {{emp.employeeName}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+                          <div *ngIf="f.employeeId.errors.required">Employee is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row col-md-12">
+                      <label class="col-sm-2 control-label" for="form-control-1">Username</label>
+                      <div class="col-sm-4">
+                        <input id="form-control-1" class="form-control" type="text" formControlName="username"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                          <div *ngIf="f.username.errors.required">Username is required</div>
+                        </div>
+                      </div>
+                      <label class="col-sm-2 control-label" style="display: none;" for="form-control-1">Email</label>
+                      <div class="col-sm-4" style="display: none;">
+                        <input id="form-control-1" class="form-control" type="hidden" formControlName="email"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                          <div *ngIf="f.username.errors.required">Username is required</div>
+                        </div>
+                      </div>
+                      <label class="col-sm-2 control-label" for="form-control-1">Role</label>
+                      <div class="col-sm-4">
+                        <select formControlName="roleId" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
+                          <option value="">Choose Option</option>
+                          <option *ngFor="let role of roleall; let num = index" [value]="role.id">{{role.name}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
+                          <div *ngIf="f.roleId.errors.required">Role is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="row col-md-12">
+                      <label class="col-sm-2 control-label" for="form-control-1">Password</label>
+                      <div class="col-sm-4">
+                        <input id="form-control-1" class="form-control" type="password" formControlName="Password"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+                        <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                          <div *ngIf="f.Password.errors.required">Password is required</div>
+                        </div>
+                      </div>
+                      <label class="col-sm-2 control-label" for="form-control-1">Confirmation Password</label>
+                      <div class="col-sm-4">
+                        <input id="form-control-1" class="form-control" type="password" formControlName="ConfirmPassword"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ConfirmPassword.errors }">
+                        <div *ngIf="(f.ConfirmPassword == f.Password)" class="invalid-feedback">ConfirmPassword is
+                          required</div>
+                        <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
+                          <div *ngIf="f.ConfirmPassword.errors.required">ConfirmPassword is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button class="btn btn-primary mr-1">Save</button>
+                    <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #elseBlock1 >
+        <div>
+          
+          <div class="panel-body">
+            <div class="xs-mt-10 xs-mb-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                    <div class="form-group">
+                      <div class="row col-md-12">
+                        <label class="col-sm-2 control-label" for="form-control-1">Employee</label>
+                        <div class="col-sm-3" >
+                         
+                          <input id="form-control-1" class="form-control" type="hidden" formControlName="employeeId"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                          <input id="form-control-1" class="form-control" type="text" formControlName="username"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+
+                          <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+                            <div *ngIf="f.employeeId.errors.required">Employee is required</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- <div class="form-group">
+                      <div class="row col-md-12">
+                        <label class="col-sm-2 control-label" for="form-control-1">Email</label>
+                        <div class="col-sm-3" >
+                         
+                          <input id="form-control-1" class="form-control" type="text" formControlName="email"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+
+                          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email is required</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+                  
+                    <div class="form-group">
+                      <div class="row col-md-12">
+                        <label class="col-sm-2 control-label" for="form-control-1">Password</label>
+                        <div class="col-sm-4">
+                          <input id="form-control-1" class="form-control" type="password" formControlName="Password"
+                            class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+                          <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                            <div *ngIf="f.Password.errors.required">Password is required</div>
+                          </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="form-control-1">Confirmation Password</label>
+                        <div class="col-sm-4">
+                          <input id="form-control-1" class="form-control" type="password" formControlName="ConfirmPassword"
+                            class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ConfirmPassword.errors }">
+                          <div *ngIf="(f.ConfirmPassword == f.Password)" class="invalid-feedback">ConfirmPassword is
+                            required</div>
+                          <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
+                            <div *ngIf="f.ConfirmPassword.errors.required">ConfirmPassword is required</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="text-center">
+                      <button class="btn btn-primary mr-1">Save</button>
+                      <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+      </ng-template>
+      
+    </ng-template>
+
+
+
+    <ng-template>
+      <div class="panel-body" [(visible)]="loadingVisible">
+        <div class="xs-mt-10 xs-mb-10">
+          <div class="row">
+            <div class="col-md-12">
+              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                <div class="form-group">
+                  <div class="row col-md-12">
+                    <label class="col-sm-2 control-label" for="form-control-1">Employee</label>
+                    <!-- <div class="col-sm-3" >
+                      <select formControlName="employeeId" class="form-control">
+                        <option value="">Choose Option</option>
+                        <option *ngFor="let emp of employeeall; let num = index" [value]="emp.employeeId">
+                          {{emp.employeeName}}
+                        </option>
+                      </select>
+                      <div *ngIf="submitted && f.employeeId.errors" class="invalid-feedback">
+                        <div *ngIf="f.employeeId.errors.required">Employee is required</div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row col-md-12">
+                    <label class="col-sm-2 control-label" for="form-control-1">Username</label>
+                    <div class="col-sm-4">
+                      <input id="form-control-1" class="form-control" type="text" formControlName="username"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                      <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                        <div *ngIf="f.username.errors.required">Username is required</div>
+                      </div>
+                    </div>
+                    <label class="col-sm-2 control-label" for="form-control-1">Role</label>
+                    <div class="col-sm-4">
+                      <select formControlName="roleId" class="form-control"
+                        [ngClass]="{ 'is-invalid': submitted && f.roleId.errors }">
+                        <option value="">Choose Option</option>
+                        <option *ngFor="let role of roleall; let num = index" [value]="role.id">{{role.name}}
+                        </option>
+                      </select>
+                      <div *ngIf="submitted && f.roleId.errors" class="invalid-feedback">
+                        <div *ngIf="f.roleId.errors.required">Role is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row col-md-12">
+                    <label class="col-sm-2 control-label" for="form-control-1">Password</label>
+                    <div class="col-sm-4">
+                      <input id="form-control-1" class="form-control" type="password" formControlName="Password"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }">
+                      <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                        <div *ngIf="f.Password.errors.required">Password is required</div>
+                      </div>
+                    </div>
+                    <label class="col-sm-2 control-label" for="form-control-1">Confirmation Password</label>
+                    <div class="col-sm-4">
+                      <input id="form-control-1" class="form-control" type="password" formControlName="ConfirmPassword"
+                        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ConfirmPassword.errors }">
+                      <div *ngIf="(f.ConfirmPassword == f.Password)" class="invalid-feedback">ConfirmPassword is
+                        required</div>
+                      <div *ngIf="submitted && f.ConfirmPassword.errors" class="invalid-feedback">
+                        <div *ngIf="f.ConfirmPassword.errors.required">ConfirmPassword is required</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button class="btn btn-primary mr-1">Save</button>
+                  <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+
+  </nb-card-body>
+</nb-card>

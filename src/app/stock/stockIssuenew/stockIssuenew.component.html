@@ -1,0 +1,239 @@
+<nb-card>
+    <nb-card-header>
+      Stock Issue New
+    </nb-card-header>
+    <nb-card-body>
+      <div class="panel-body" >
+        <div class="xs-mt-12 xs-mb-12  ">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                  <div class="row">
+                    <!-- <div class="col-sm-2" style="display: none;"> 
+                    <label class="control-label" for="form-control-1">Requisition No.</label>
+                    <div >
+                      <nb-select multiple placeholder="Multiple Select"   [(ngModel)]="stockfilter.requisitionId" >
+                        <nb-option class="form-control" *ngFor="let requisition of RequisitionAll; let num = index"
+                          [value]="requisition.requisitionId">{{requisition.requisitionId}}
+                        </nb-option>
+                      </nb-select>
+                    </div>
+                    </div> -->
+                  <!-- <div class="col-sm-2"> 
+                    <label class="control-label" for="form-control-1">Product Name</label>
+                    
+                      <input [(ngModel)]="stockfilter.productName" (ngModelChange)="onModelChange($event)" nbInput type="text" placeholder="Product Name"
+                      [nbAutocomplete]="autoNgModel" />
+                    <nb-autocomplete #autoNgModel>
+                      <nb-option *ngFor="let option of filteredNgModelOptions$ | async" [value]="option">
+                        {{ option }}
+                      </nb-option>
+                    </nb-autocomplete>
+                    </div> -->
+
+
+
+                    <!-- <div class="col-sm-2">
+                    <label class="control-label" for="form-control-1">Category</label>
+                      <nb-select multiple placeholder="Multiple Select"   [(ngModel)]="stockfilter.categoryID" (change)="onSelect($event.target.value)">
+                        <nb-option class="form-control" *ngFor="let category of categoryall; let num = index"
+                          [value]="category.id">{{category.name}}
+                        </nb-option>
+                      </nb-select>
+                    </div> -->
+
+
+
+                    <!-- <div class="col-sm-2">
+                    <label class=" control-label" for="form-control-1">SubCategory</label>
+                      <nb-select multiple placeholder="Multiple Select"  [(ngModel)]="stockfilter.subCategoryId">
+                        <nb-option *ngFor="let subcategory of subcategoryallfilter; let num = index"
+                        [value]="subcategory.id">{{subcategory.name}}
+                      </nb-option>
+                      </nb-select>
+                    </div> -->
+
+
+                    <div class="col-sm-2" style="display: none;">
+                    <label class="control-label" for="form-control-1">Supplier </label>
+                      <nb-select multiple placeholder="Multiple Select"  [(ngModel)]="stockfilter.supId">
+                        <nb-option *ngFor="let supplier of supplierall; let num = index"
+                        [value]="supplier.id">{{supplier.name}}
+                      </nb-option>
+                      </nb-select>
+                    </div>
+
+
+
+                    <!-- <div class="col-sm-2">
+                      <label class="control-label" for="form-control">Report Type</label>
+                        <nb-select multiple placeholder="Multiple Select"  [(ngModel)]="stockfilter.supId">
+                          <nb-option *ngFor="let supplier of supplierall; let num = index"
+                          [value]="supplier.id">{{supplier.name}}
+                        </nb-option>
+                        </nb-select>
+                      </div> -->
+
+
+
+
+                  </div>
+                  <br />
+                  <div class="row">
+                    <div class="col-sm-10">
+                    <label class="control-label" for="form-control-1">Report Type</label>
+                      <select  placeholder=" Select" class="form-control"  [(ngModel)]="stockfilter.rptType">
+                        <option *ngFor="let report of reportType; let num = index" [value]="report">{{report}}</option>
+                      </select>
+                    </div>
+                    <div class="col-sm-2">
+                    <div class="text-right">
+                      <button class="btn btn-primary mr-1" (click)="filtersubmit()">Search</button>
+                      <button class="btn btn-primary mr-1" (click)="opeonrpt()">Report</button>
+                      <button class="btn btn-secondary" type="reset" (click)="onResetfilter()">Cancel</button>
+                  </div>
+                </div>
+                  </div>
+                </div>
+              
+              <hr />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <!-- <div class="col-sm-0" style="width: 500px;">
+            <input  [(ngModel)]="branchId" (focusout)="onBranchWiseRequisition()"  (ngModelChange)="onModelChange($event)" nbInput type="text" placeholder="Branch Name"
+            [nbAutocomplete]="autoNgModel"  style="width: 500px;" />
+            
+            <nb-autocomplete #autoNgModel >
+        
+              <nb-option *ngFor="let option of filteredNgModelOptions$ | async" [value]="option.branchId+'_'+option.branchName"   style="width: 500px;">
+                {{ option.branchName }}
+              </nb-option>
+            
+            </nb-autocomplete>
+          </div> -->
+
+
+          <div class="col-sm-0" style="width: 500px;">
+            <div>
+              <label class="control-label" for="form-control">Branch: </label>
+                  <select class="form-control" [(ngModel)]="branchId" (change)="onBranchWiseRequisition()" placeholder="Branch" >
+                    <option  selected>select option </option>  
+                    <option *ngFor="let option of RequistionNVM; let num = index" [value]="option.branchId">
+                      {{option.branchName}}
+                      </option>
+                    </select>
+              </div>
+          </div>
+
+          <div class="col-sm-0" style="width: 500px;">
+            <div >
+              <label class="control-label" for="form-control">Requisition Id: </label>
+                  <select class="form-control" [(ngModel)]="requisitionNo" (change)="onBranchWiseRequisitionAndIdWise()" >
+                    <option value="0" selected>select option </option>  
+                    <option *ngFor="let option of RequistionNVMBranchWise; let num = index" [value]="option.requisitionId">
+                      {{option.requisitionId}}
+                      </option>
+                    </select>
+              </div>
+          </div>
+
+        </div>
+                <div class="table-responsive table-border" >
+                  <table   class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Serial No.</th>
+                        <th>Requisition No </th>
+                        <th>Requisition Date </th>
+                        <th>Branch Name</th>
+                        <!-- <th>Product Name</th>
+                        <th>Category Name</th>
+                        <th>Subcategory Name</th>
+                        <th>UOM </th> -->
+                        <th>EmployeeName</th>
+                        <!-- <th>Stock  QTY</th>
+                        <th>Req. Qty </th> -->
+                        <!-- <th>Issue Qty </th>
+                        <th></th>
+
+                        <th>Issue Qty</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let product of RequistionNVMBranchWiseAndRequisitionId; let num = index" [style.color]="product.statusQ=='true'?'blue':'black'">
+                        <td >{{num+1}}</td>
+                        <td>{{product.requisitionId}}</td>
+                        <td>{{product.rdt | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{product.branchName}}</td>
+                        <!-- <td>{{product.productCode}}-{{product.productName}}</td> -->
+                        <!-- <td>{{product.categoryName}}</td> -->
+                        <!-- <td>{{product.subCategoryName}}</td> -->
+                        <!-- <td>{{product.uomName}}</td> -->
+                        <td>{{product.employeeName}}</td>
+                        <!-- <td>{{product.pStock}}</td> -->
+                        <!-- <td>{{product.productStock}}</td> -->
+                        <!-- <td>{{product.rQty}}</td> -->
+                        <td>
+                          <table   class="table table-striped">
+                            <tr>
+                              <th>Product Name</th>
+                              
+                              <th>Request Qty</th>
+                              <th>Product Stock</th>
+                              <!-- <th>Product Stock 2</th> -->
+                              <th>Issue Qty</th>
+                            </tr>
+                            <tr *ngFor="let product2 of product.requisitionDetailsProduct; let num3 = index">
+                              <td>{{product2.productName}}</td>
+                              
+                              <td>{{product2.rQty}}</td>
+                                <td>
+                                  <table>
+                                    <tr>
+                                      <!-- <th>Batch No</th> -->
+                                      <!-- <th>Product Stock</th> -->
+                                    </tr>
+                                    <tr *ngFor="let product3 of product2.requisionWiseProduct; let num4 = index">
+                                        <!-- <td>{{product3.batchNo}}</td> -->
+                                        <!-- <td>{{product3.productStockOpening}}</td> -->
+                                        <td>{{product3.psdTotal}}</td>
+                                    </tr>
+                                  </table>
+                                </td>
+                                
+                                <td colspan="5"><input type="tel" style="width: 200px; height: 50px;" class="form-control" [(ngModel)]="product2.issueQty"  ></td>
+                            </tr>
+                            <tr>
+                              
+                            </tr>
+                          </table>
+                        </td>
+                        <!-- <td><input type="tel" style="width: 100px; height: 20px;" class="form-control"  [(ngModel)]="product.qty"></td>
+                        <i class="btn  btn-success  btn-sm"  (click)="StockIssueForEmployee(product)">Issue</i> -->
+                        
+                      </tr>
+                      <tr>
+                        
+                      </tr>
+                    </tbody>
+                  </table>  
+                  <button class="btn btn-primary" (click)="saveAllData()" style="float: right;">Issue</button>  
+                </div>
+              </div>
+              </nb-card-body>
+            </nb-card>
+            <ng-template #dialog let-data let-ref="dialogRef">
+              <nb-card>
+                <nb-card-header>Are You Sure To Confirm Stock Issue?</nb-card-header>
+                <nb-card-body>
+                 <div class="row">
+                    <div class="col-md-6"><button class="btn btn-success" (click)="IssueSave(data)">Yes</button> </div>
+                    <div class="col-md-6"><button class="btn btn-danger" (click)="ref.close()">No</button> </div>
+                 </div>
+                </nb-card-body>
+            
+              </nb-card>
+            </ng-template>

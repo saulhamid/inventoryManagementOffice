@@ -1,0 +1,89 @@
+<nb-card>
+  <nb-card-header>
+    Purchase Rececived
+  </nb-card-header>
+  <nb-card-body>
+              <div class="table-responsive table-border">
+                <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Serial</th>
+                      <th>Invoice No</th>
+                      <th>Date</th>
+                      <th>Supplier Name </th>
+                      <th>Received Date</th>
+                      <th>Received By</th>
+                      <th>Print</th>
+                      <th style="width: 10%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let purchaseorder of purchaseorderall; let num = index" >
+                      <td>{{num+1}}</td>
+                      <td >{{purchaseorder.poNo}}</td>
+                      <td >{{purchaseorder.poDate | date: 'dd/MM/yyyy' }}</td>
+                      <td>{{purchaseorder.supplierName}}</td>
+                      <td>{{purchaseorder.approvedDate  | date: 'dd/MM/yyyy'}}</td>
+                      <td>{{purchaseorder.approvedBy}}</td>
+                      <td>
+                        <button class="btn btn-primary" *ngIf="purchaseorder.isApproved==true"  (click)="printPoData(purchaseorder)" >Print</button>
+                      </td>
+                      <td class="actions">
+                        <i class="btn  btn-success btn-sm" *ngIf="(purchaseorder.isApproved==false) || (purchaseorder.isApproved==null)" (click)="open2(dialog,purchaseorder)">Not Received</i>
+                        <i class="btn  btn-warning btn-sm" *ngIf="purchaseorder.isApproved==true"  (click)="open2(dialog,purchaseorder)"> Received</i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </nb-card-body>
+          </nb-card>
+          <ng-template #dialog let-data let-ref="dialogRef">
+            <nb-card>
+              <nb-card-header>Purchase Order Received</nb-card-header>
+              <nb-card-body>
+                <div class="form-group">
+                <div class="row">
+                  <div class="col-md-1 control-label text-left">Date: </div>
+                  <div class="col-md-3">{{ data.poDate  | date: 'dd/MM/yyyy'}}</div>
+                  <div class="col-md-3 control-label">Supplier Name: </div>
+                  <div class="col-md-3">{{ data.supplierName}}</div>
+                </div>
+              </div>
+                <div class="table-responsive table-border">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th style="width: 32px"></th>
+                        <th>Serial</th>
+                        <th>Category Name</th>
+                        <th>Product Name</th>
+                        <th>QTY</th>
+                        <th>Received QTY</th>
+                        <th>Receive QTY</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let branch of data.purchaseOrderDetails; let num = index" >
+                        <td>
+                        </td>
+                        <td>{{num+1}} </td>
+                        <td>{{branch.categoryName}}</td>
+                        <td>{{branch.productName}}</td>
+                        <td>{{branch.poQty}}</td>
+                        <td>{{branch.tporcvQty}}</td>
+                        <td *ngIf="(data.isApproved==true)">{{branch.poQty}}</td>
+                        <td *ngIf="(data.isApproved==false) || (data.isApproved==null)"><input [disabled]="branch.poQty==branch.tporcvQty"  nbInput fullWidth fieldSize="small"  class=" input-sm" [(ngModel)]="branch.porcvQty" /> </td>
+                        <td>{{branch.cpu}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </nb-card-body>
+              <nb-card-footer style="text-align: right">
+                <button class="btn btn-success" (click)="onApproved(data,ref)" *ngIf="(data.isApproved==false) || (data.isApproved==null)" >Receeived</button>
+                <button nbButton (click)="ref.close()">Close </button>
+              </nb-card-footer>
+            </nb-card>
+          </ng-template>

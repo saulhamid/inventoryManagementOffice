@@ -1,0 +1,248 @@
+<nb-card>
+    <nb-card-header>
+      Purchase Avg  <!--<span style=""><button class="btn btn-primary  btn-sm float-right"  (click)="btnadd()" *ngIf="listshow==true">Add</button> </span>-->
+    </nb-card-header>
+    <nb-card-body>
+      <div class="panel-body" *ngIf="listshow==true; else elseBlock">
+        <!-- <div class="xs-mt-10 xs-mb-10  " style="">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-sm-2 control-label" for="form-control-1">Invoice</label>
+                    <div class="col-sm-2">
+                      <input nbInput placeholder="Search Invoice"  class="form-control" [(ngModel)]="purchaseReturnfilter.invoice" >
+                    </div>
+                    <label class="col-sm-1 control-label" for="form-control-1">Date</label>
+                    <div class="col-sm-2">
+                      <input nbInput placeholder="Min Max Picker"  class="form-control"  [(ngModel)]="purchaseReturnfilter.PRDT" [nbDatepicker]="picker" >
+                      <nb-datepicker #picker ></nb-datepicker>
+                    </div>
+                    <label class="col-sm-2 control-label" for="form-control-1">Supplier</label>
+                    <div class="col-sm-2">
+                      <select  class="form-control"  [(ngModel)]="purchaseReturnfilter.SupId"   >
+                        <option [value]="0">--Choose Option--</option>
+                        <option *ngFor="let supplier of supplierall; let num = index" [value]="supplier.id">{{supplier.supplierName}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <br/>
+                </div>
+                <div class="text-right">
+                  <button class="btn btn-primary mr-1" (click)="filtersubmit()">Search</button>
+                  <button class="btn btn-secondary" type="reset" (click)="onResetfilter()">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+
+        <div class="xs-mt-10 xs-mb-10  " style="">
+          <div class="row">
+            <div class="col-md-1" style="">
+                        
+              <label class=" control-label" for="form-control-1">From Date</label>
+    
+          </div>
+          <div class="col-md-3">
+            <input nbInput placeholder="From Date"  class="form-control" [(ngModel)]="fromDate"   [nbDatepicker]="picker" >
+            <nb-datepicker #picker ></nb-datepicker>
+            <!-- <button onclick="onDatePicker()">Search</button> -->
+          </div>
+          <div class="col-md-1">
+            <label class="control-label" for="form-control-1">To Date</label>
+          </div>
+          <div class="col-md-3">
+            <input nbInput placeholder="To Date"  class="form-control"  [(ngModel)]="toDate"  [nbDatepicker]="picker1" >
+            <nb-datepicker #picker1 ></nb-datepicker>
+            
+          </div>
+          <div class="col-md-1">
+            <button  class="btn btn-primary mr-1" (click)="onDatePicker()" >Search</button>
+          </div>
+          </div>
+        </div>
+        <br>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="table-responsive table-border">
+          <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+            <thead>
+              <tr>
+                <th>Serial</th>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Total QTY</th>
+                <th>Avg CPU</th>
+                <!-- <th>Supplier Name </th> -->
+                <!-- <th style="width: 10%">Action</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let indent of purchaseReturnDetail; let num = index">
+                <td>{{num+1}}</td>
+                <td >{{indent.productId}}</td>
+                <td>{{indent.productName}}</td>
+                <td>{{indent.sum_poqty}}</td>
+                <!-- <td >{{indent.pdt | date: 'dd/MM/yyyy' }}</td> -->
+                <td>{{indent.avg_cpu}}</td>
+                <td>{{indent.supplierName}}</td>
+                <!-- <td></td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <ng-template #elseBlock>
+        <div class="panel-body">
+          <div class="xs-mt-10 xs-mb-10  ">
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group">
+                    <div class="row">
+                      <label class="col-sm-1 control-label" for="form-control-1">Date</label>
+                      <div class="col-sm-2">
+                        <input nbInput placeholder="Min Max Picker"  class="form-control"  [(ngModel)]="purchaseReturn.PRDT" [nbDatepicker]="picker" >
+                        <nb-datepicker #picker [min]="min" [max]="max"></nb-datepicker>
+                      </div>
+                      <label class="col-sm-2 control-label" for="form-control-1">Supplier</label>
+                      <div class="col-sm-2">
+                        <select  class="form-control"  [(ngModel)]="purchaseReturn.SupId"  (change)="onSelect($event.target.value)"  >
+                          <option [value]="0">--Choose Option--</option>
+                          <option *ngFor="let supplier of supplierall; let num = index" [value]="supplier.id">{{supplier.supplierName}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <br/>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group ">
+              <label class="control-label" for="form-control-1">Product</label>
+                <select  class="form-control"   [(ngModel)]="productId" (change)="onProductChange($event.target.value)">
+                  <option [value]="0">--Choose Option--</option>
+                  <option *ngFor="let product of productall; let num = index" [value]="product.productId">{{product.productName}}
+                  </option>
+                </select>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group ">
+              <label class="control-label" for="form-control-1">Quantity</label>
+              <input id="form-control-1" class="form-control col-sm-8" type="text"  [(ngModel)]="qty" class="form-control" >
+            </div>
+          </div>
+          <div class="col-sm-3 form-group">
+            <label class="control-label" for="form-control-1"></label>
+            <br/>
+              <button class="btn btn-primary mr-1" (click)="onaddProduct()" >Add</button>
+          </div>
+        </div>
+        <div class="table-responsive table-border" >
+          <div>
+            <table class="table table-striped">
+            <thead>
+              <tr>
+                <th style="width: 5%"></th>
+                <th style="width: 5%">Serial</th>
+                <th style="width: 25%">Product Name</th>
+                <th style="width: 10%">Quantity</th>
+                <th style="width: 10%">Unite Price</th>
+                <th style="width: 10%">Amount</th>
+                <th style="width: 10%"></th>
+              </tr>
+            </thead>
+            <tbody style="max-height: 500px;overflow: scroll;">
+              <tr *ngFor="let purchase of purchaseReturn.purchaseReturnDetails; let num = index">
+                <td>
+                </td>
+                <td>{{num+1}}</td>
+                <td>{{purchase.productName}}</td>
+                <td>{{purchase.PRQty}}{{purchase.uOMName}}</td>
+                <td>{{purchase.CPU}}</td>
+                <td>{{purchase.PRQty*purchase.CPU}}</td>
+                <td class="actions">
+                  <i class="btn btn-danger btn-sm fa fa-trash" (click)="btndetproduct(purchase.productId)"  nbButton></i>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                  <td colspan="5" class="text-right">Total </td>
+                  <td><div class="form-group ">
+                      <input id="form-control-1" disabled="disabled"  [(ngModel)]="Total"  class="form-control col-sm-8" type="text"  class="form-control"  >
+                    </div> 
+                  </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+          <div class="float-right">
+              <button class="btn btn-primary mr-1" (click)="onSubmit()">Save</button>
+              <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+          </div>
+        </div>
+     </ng-template>
+              </nb-card-body>
+            </nb-card>
+            <ng-template #dialog let-data let-ref="dialogRef">
+                <nb-card>
+                  <nb-card-header>Product Derail</nb-card-header>
+                  <nb-card-body>
+                    <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-2 control-label">No : </div>
+                      <div class="col-md-2">{{ data.prId}}</div>
+                      <div class="col-md-2 control-label">Date : </div>
+                      <div class="col-md-2">{{ data.prdt  | date: 'dd/MM/yyyy'}}</div>
+                      <div class="col-md-2 control-label">Supplier Name : </div>
+                      <div class="col-md-2">{{ data.supplierName}}</div>
+                    </div>
+                  </div>
+                  <div class="table-responsive table-border">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="width: 32px"></th>
+                          <th>Serial</th>
+                          <th>Product Name</th>
+                          <th>QTY</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let branch of data.purchaseReturnDetails; let num = index" >
+                          <td>
+                          </td>
+                          <td>{{num+1}} </td>
+                          <td >{{branch.productName}}</td>
+                          <td>{{branch.prQty}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  </nb-card-body>
+                  <nb-card-footer>
+                    <button nbButton (click)="ref.close()">Close </button>
+                  </nb-card-footer>
+                </nb-card>
+              </ng-template>

@@ -1,0 +1,31 @@
+<nb-card >
+  <nb-card-header>
+    <div class="row">
+    <div class="col-md-4">Menu List</div>
+  </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="col-md-10">
+      <div class="form-group">
+      <div class="control-label" >Employee Name : {{user.employeeName}}</div>
+      </div>
+    </div>
+   <tree-root
+   #tree
+   [nodes]="menuall"
+   [options]="options">
+
+   <ng-template #treeNodeTemplate let-node="node" let-index="index" >
+     <input
+       (change)="check(node, !node.data.isPermission)"
+       type="checkbox"
+   
+       [checked]="node.data.isPermission">
+
+       {{ node.data.name }}
+   </ng-template>
+ </tree-root>
+
+  <button  class="btn btn-success" (click)="SaveuserMenu()" >Save</button>
+  
+</nb-card-body>

@@ -1,0 +1,48 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <fieldset class="common-fieldset">
+          <legend class="rounded">Stock Low Status</legend>
+          <div class="reordering-table">
+            <div class="table-responsive ">
+              <table id='table' datatable class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th class="sl-th">sl No.</th>
+
+                    <th>Product Name</th>
+                    <!--    <th>Category Name</th>
+                            <th>Sub Category Name</th>
+                            <th>Uom Name</th>-->
+                    <th class="text-center stock-th">Stock</th>
+                    <th class="reorder-level-th">ReOrder Level</th>
+                    <!--  <th>CPU</th>-->
+                    <!-- <th style="width: 10%"></th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let purchaseorder of reorderinglevelall; let num = index">
+                    <td class="sl-td">{{num+1}}</td>
+
+                    <td>{{purchaseorder.productName}}</td>
+                    <!--  <td >{{purchaseorder.categoryName }}</td>
+                            <td>{{purchaseorder.subCategoryName}}</td>
+                            <td>{{purchaseorder.uomName}}</td>-->
+                    <td class="text-center stock-td">{{purchaseorder.pstock}}{{purchaseorder.uomName}}</td>
+                    <td class="reorder-level-td">{{purchaseorder.reOrderlevel}}{{purchaseorder.uomName}}</td>
+                    <!-- <td>{{purchaseorder.cpu}}</td>
+                            <td class="actions">
+                              <i class="btn  btn-success btn-sm" *ngIf="(purchaseorder.isQC==false) || (purchaseorder.isQC==null)" (click)="open2(dialog,purchaseorder)">QC Pending</i>
+                              <i class="btn  btn-warning btn-sm" *ngIf="purchaseorder.isQC==true" (click)="open2(dialog,purchaseorder)">QC</i>
+                            </td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</section>

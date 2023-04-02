@@ -1,0 +1,123 @@
+<nb-card>
+  <nb-card-header>
+    Stock Transfer
+  </nb-card-header>
+  <nb-card-body>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+              <label class="col-sm-6 control-label" for="form-control-1">From Company</label>
+              <div class="col-sm-6">
+                <select [(ngModel)]="stocktransfer.FromCompanyId" class="form-control" (change)="getFromBranchByCompany($event.target.value)">
+                  <option value="0">Choose Option</option>
+                  <option *ngFor="let Company of companyall; let num = index" [value]="Company.id">
+                    {{Company.companyName}}
+                  </option>
+                </select>
+              </div>
+              <label class="col-sm-6 control-label" for="form-control-1">From Branch</label>
+              <div class="col-sm-6">
+                <select [(ngModel)]="stocktransfer.FromBranchId" class="form-control" (change)="getproduct($event.target.value)">
+                  <option value="0">Choose Option</option>
+                  <option *ngFor="let branch of FrombranchCompany; let num = index" [value]="branch.id">
+                    {{branch.branchName}}
+                  </option>
+                </select>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-4" style="border-left:1px;margin-top:2px;">
+          <div class="form-group">
+              <label class="col-sm-6 control-label" for="form-control-1">To Company</label>
+              <div class="col-sm-6">
+                <select [(ngModel)]="stocktransfer.ToCompanyId" class="form-control"  (change)="getTOBranchByCompany($event.target.value)">
+                  <option value="0">Choose Option</option>
+                  <option *ngFor="let Company of companyall; let num = index" [value]="Company.id">
+                    {{Company.companyName}}
+                  </option>
+                </select>
+              </div>
+              <label class="col-sm-6 control-label" for="form-control-1">To Branch</label>
+              <div class="col-sm-6">
+                <select [(ngModel)]="stocktransfer.ToBranchId" class="form-control">
+                  <option value="0">Choose Option</option>
+                  <option *ngFor="let branch of TobranchCompany; let num = index" [value]="branch.id">
+                    {{branch.branchName}}
+                  </option>
+                </select>
+         
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr style="height:1px;border:none;color:#333;background-color:#333333;" />
+      <div class="form-group">
+        <div class="row">
+          <label class="col-sm-1 control-label" for="form-control-1">Product Name</label>
+          <div class="col-sm-2">
+            <select class="form-control" [(ngModel)]="productId" (change)="getChangeProduct($event.target.value)">
+              <option value="0" selected>select option </option>
+              <option *ngFor="let product of productall; let num = index" [value]="product.productCode">
+                {{product.productName}}
+              </option>
+            </select>
+          </div>
+          <label class="col-sm-1 control-label" for="form-control-1">Stock QTY</label>
+        <div class="col-sm-2">
+          <input placeholder="StockQty" class="form-control" [(ngModel)]="StockQty" readonly/>
+        </div>
+        <label class="col-sm-1 control-label" for="form-control-1">Quantity</label>
+        <div class="col-sm-2">
+          <input placeholder="Quantity" class="form-control" [(ngModel)]="qty">
+        </div>
+        <div class="col-sm-1">
+          <div class="text-center">
+            <button class="btn btn-secondary" type="reset" [disabled]="btndisable==true"
+              (click)="btnaddProduct()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="table-responsive table-border" style="max-height:500px;">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width: 32px"></th>
+              <th>Serial</th>
+              <th>Product Code</th>
+              <th>Product Name</th>
+              <th>Stock QTY</th>
+              <th>Transfer QTY</th>
+              <th style="width: 10%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let indentD of stocktransfer.stocktransferdetails; let num = index">
+              <td></td>
+              <td>{{num+1}}</td>
+              <td>{{indentD.productCode}}</td>
+              <td>{{indentD.productName}}</td>
+              <td>{{indentD.StockQty}}</td>
+              <td>{{indentD.STQty}}</td>
+              <td class="actions">
+                <i class="btn btn-danger btn-sm fa fa-trash" (click)="btndetproduct(indentD.productCode)"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="float-left">
+        <div *ngFor="let data of tramsncondition; let num = index">
+          <p class="xs-mt-6 xs-mb-6"
+            style="width:600px; overflow-wrap: break-word;word-wrap: break-word;hyphens: auto;">{{data.description}}
+          </p>
+        </div>
+      </div>
+      <div class="float-right">
+        <button class="btn btn-primary btn-xs mr-1" (click)="onSubmit()">Save</button>
+        <button class="btn btn-secondary btn-xs" type="reset" (click)="onReset()">Cancel</button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,90 @@
+<nb-card>
+    <nb-card-header>
+      Indent Approve
+    </nb-card-header>
+    <nb-card-body>
+                <div class="table-responsive table-border">
+                  <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th style="width: 32px"></th>
+                        <th>Serial</th>
+                        <th>Indent Id</th>
+                        <th>Date</th>
+                        <th>Employee Name</th>
+                        <th>Branch</th>
+                        <th>Approved Date</th>
+                        <th>Approved By</th>
+                        <th style="width: 10%">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let branch of indentmasterall; let num = index" >
+                        <td>
+                        </td>
+                        <td>{{num+1}} </td>
+                        <td>{{branch.indentId}}</td>
+                        <td >{{branch.date  | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{branch.employeeName}}</td>
+                        <td>{{branch.branchName}}</td>
+                        <td>{{branch.approvedDate  | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{branch.approvedBy}}</td>
+                        <td class="actions" >
+                          <i class="btn  btn-success  btn-sm" *ngIf="(branch.isApproved==null)" (click)="open2(dialog,branch)">Approved</i>
+                          <i class="label label-success" *ngIf="branch.isApproved==true">Approved</i>
+                          <i class="label label-warning" *ngIf="branch.isApproved==false">Reject</i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </nb-card-body>
+            </nb-card>
+            <ng-template #dialog let-data let-ref="dialogRef">
+              <nb-card>
+                <nb-card-header>Indent Approved</nb-card-header>
+                <nb-card-body>
+                  <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-3 control-label">Date : </div>
+                    <div class="col-md-3">{{ data.date  | date: 'dd/MM/yyyy'}}</div>
+                    <div class="col-md-3 control-label">Employee Name : </div>
+                    <div class="col-md-3">{{ data.employeeName}}</div>
+                  </div>
+                </div>
+                  <div class="table-responsive table-border">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="width: 32px"></th>
+                          <th>Serial</th>
+                          <th>Category Name</th>
+                          <th>Product Name</th>
+                          <th>Quantity</th>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let branch of data.indentDetails; let num = index" >
+                          <td>
+                          </td>
+                          <td>{{num+1}} </td>
+                          <td>{{branch.categoryName}}</td>
+                          <td>{{branch.productName}}</td>
+                          <td><input  nbInput fullWidth fieldSize="small" class=" input-sm" [(ngModel)]="branch.qty" /> </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </nb-card-body>
+                <nb-card-footer>
+                  <nb-card-footer class="pull-right" style="text-align:right">
+                    <div >
+                    <button class="btn btn-success" (click)="onApproved(data,ref)" *ngIf="(data.isApproved==false) || (data.isApproved==null)" >Approved</button>
+                    <button class="btn btn-warning" (click)="onRejected(data,ref)" *ngIf="(data.isApproved==false) || (data.isApproved==null)" >Reject</button>
+                    <button nbButton (click)="ref.close()">Close </button>
+                  </div>
+                  </nb-card-footer>
+                </nb-card-footer>
+              </nb-card>
+            </ng-template>

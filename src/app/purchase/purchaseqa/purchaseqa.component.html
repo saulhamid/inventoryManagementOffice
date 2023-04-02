@@ -1,0 +1,92 @@
+<nb-card>
+  <nb-card-header>
+    Purchase QC
+  </nb-card-header>
+  <nb-card-body>
+              <div class="table-responsive table-border">
+                <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Serial</th>
+                      <th>Invoice No</th>
+                      <th>Date</th>
+                      <th>Supplier Name </th>
+                      <th>Approved Date</th>
+                      <th>Approved By</th>
+                      <th>QC Date</th>
+                      <th>QC By</th>
+                      <th style="width: 10%"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let purchaseorder of purchaseorderall; let num = index" >
+                      <td>{{num+1}}</td>
+                      <td >{{purchaseorder.poNo}}</td>
+                      <td >{{purchaseorder.poDate | date: 'dd/MM/yyyy' }}</td>
+                      <td>{{purchaseorder.supplierName}}</td>
+                      <td>{{purchaseorder.approvedDate  | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{purchaseorder.approvedBy}}</td>
+                        <td>{{purchaseorder.qcdt  | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{purchaseorder.qcBy}}</td>
+                      <td class="actions">
+                        <i class="btn  btn-success btn-sm" *ngIf="(purchaseorder.isQC==false) || (purchaseorder.isQC==null)" (click)="open2(dialog,purchaseorder)">QC Pending</i>
+                        <i class="btn  btn-warning btn-sm" *ngIf="purchaseorder.isQC==true" (click)="open2(dialog,purchaseorder)">QC</i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </nb-card-body>
+          </nb-card>
+          <ng-template #dialog let-data let-ref="dialogRef">
+            <nb-card>
+              <nb-card-header>Purchase Order QC</nb-card-header>
+              <nb-card-body>
+                <div class="form-group">
+                <div class="row">
+                  <div class="col-md-1 control-label">Date : </div>
+                  <div class="col-md-3">{{ data.poDate  | date: 'dd/MM/yyyy'}}</div>
+                  <div class="col-md-2 control-label">Supplier Name: </div>
+                  <div class="col-md-3">{{ data.supplierName}}</div>
+                </div>
+              </div>
+                <div class="table-responsive table-border">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th style="width: 32px"></th>
+                        <th>Serial</th>
+                        <th>Category Name</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Return</th>
+                        <th style="display: none;">Dis QTY</th>
+                        <th style="display: none;">Dis Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let branch of data.purchaseOrderDetails; let num = index" >
+                        <td>
+                        </td>
+                        <td>{{num+1}} </td>
+                        <td>{{branch.categoryName}}</td>
+                        <td>{{branch.productName}}</td>
+                        <td>{{branch.porcvQty}}</td>
+                        <td>{{branch.pqcrQty}}</td>
+                        <td  *ngIf="data.isQC==true">{{branch.pQCRQty}}</td>
+                        <td *ngIf="data.isQC==true">{{branch.PQCDisQty}}</td>
+                        <td *ngIf="data.isQC==true">{{branch.pQCDisAmount}}</td>
+                        <td><input  nbInput fullWidth fieldSize="small" class=" input-sm"  *ngIf="(data.isQC==false) || (data.isQC==null)"  [(ngModel)]="branch.pQCRQty" /> </td>
+                        <td style="display: none;"><input  nbInput fullWidth fieldSize="small" class=" input-sm"  *ngIf="(data.isQC==false) || (data.isQC==null)"  [(ngModel)]="branch.PQCDisQty" /> </td>
+                        <td style="display: none;"><input  nbInput fullWidth fieldSize="small" class=" input-sm"  *ngIf="(data.isQC==false) || (data.isQC==null)" [(ngModel)]="branch.pQCDisAmount" /> </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </nb-card-body>
+              <nb-card-footer>
+                <button class="btn btn-success" (click)="onApproved(data,ref)" *ngIf="(data.isQC==false) || (data.isQC==null)" >QC Complete</button>
+                <button nbButton (click)="ref.close()">Close </button>
+              </nb-card-footer>
+            </nb-card>
+          </ng-template>

@@ -1,0 +1,151 @@
+$logo-color: #222b45;
+$green: #44bd32;
+.common-layout-main {
+  margin: 20px 17px;
+  background: #fff;
+  padding: 20px 0;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  .common-fieldset {
+    padding: 15px 19px 19px !important;
+    border: 1px solid #e9ebec !important;
+    border-radius: 4px;
+    position: relative;
+    legend {
+      text-align: center !important;
+      margin: 0 auto;
+      width: auto;
+      float: none;
+      padding: 4px 20px;
+      background: #e9ebec;
+      border-radius: 4px;
+      text-transform: uppercase;
+      color: $logo-color;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .company-add-btn {
+      background: #44bd32;
+      position: absolute;
+      right: 16px;
+      top: -29px;
+      padding: 1px 15px;
+      font-size: 14px;
+      color: #fff;
+      text-transform: capitalize;
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+      -o-border-radius: 4px;
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+  .company-list-table {
+    .table {
+      margin-bottom: 0;
+      border: none;
+      border-collapse: collapse;
+
+      thead {
+        tr {
+          th {
+            padding: 7px 12px;
+            font-size: 16px;
+            text-transform: capitalize;
+            color: $logo-color;
+            font-weight: 600;
+            border-bottom: none;
+            vertical-align: middle;
+          }
+          th.sl-th {
+            width: 120px;
+            text-align: center;
+          }
+          th.actions {
+            width: 150px;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            font-size: 14px;
+            text-transform: capitalize;
+            padding: 7px 15px;
+            vertical-align: middle;
+            button {
+              border-radius: 0;
+              -webkit-border-radius: 0;
+              -moz-border-radius: 0;
+              -ms-border-radius: 0;
+              -o-border-radius: 0;
+              padding: 2px 10px;
+              color: #fff;
+              i {
+                font-size: 12px;
+              }
+              &:focus {
+                box-shadow: none;
+                outline: none;
+              }
+            }
+          }
+          td.actions {
+            width: 150px;
+          }
+        }
+      }
+    }
+  }
+  form {
+    label {
+      color: $logo-color;
+      font-size: 17px;
+      display: block;
+      position: relative;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .form-control {
+      padding-left: 20px;
+      padding-right: 20px;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background: none;
+      background-color: #fff;
+      border: 1px solid #bcccdc;
+      font-size: 14px;
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      margin-bottom: 20px;
+      min-height: 40px;
+      &:focus {
+        box-shadow: none;
+        outline: none;
+      }
+    }
+    button.save-btn {
+      background: $green;
+      border-color: $green;
+    }
+    button.cancel-btn {
+      background: #e84118;
+      border-color: #e84118;
+    }
+  }
+}
+
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+  height: 150px;
+}

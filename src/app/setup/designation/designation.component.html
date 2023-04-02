@@ -1,0 +1,67 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <legend class="rounded">Designation</legend>
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true"> <i class=" fa fa-plus"></i>
+            Add</button>
+          <div class="designation-table">
+            <div class="table-responsive ">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th class="sl-th">Serial</th>
+                    <th>Designation</th>
+
+                    <!-- <th style="width: 10%"></th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let des of designationall; let num = index">
+
+                    <td class="sl-td">{{num+1}}</td>
+                    <td>{{des.designationName}}</td>
+                    <!-- <td class="actions">
+                                    <i class="btn  btn-warning btn-sm fa fa-edit" (click)="btnEdit(branch)"  ></i>
+                                    <i class="btn btn-danger btn-sm fa fa-trash" (click)="btnDelete(branch)"   ></i>
+                                  </td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+            <legend class="rounded">add designation</legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 control-label" for="form-control-1">Designation Name</label>
+                  <div class="col-sm-9">
+                    <input id="form-control-1" class="form-control" type="text" formControlName="designationName"
+                      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }">
+                    <div *ngIf="submitted && f.branchName.errors" class="invalid-feedback">
+                      <div *ngIf="f.branchName.errors.required">Designation Name is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center">
+
+                <button class="btn cancel-btn mr-3" type="reset" (click)="onReset()">Cancel</button>
+                <button class="btn save-btn">Save</button>
+              </div>
+            </form>
+          </fieldset>
+
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</section>

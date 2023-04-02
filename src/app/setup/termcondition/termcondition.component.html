@@ -1,0 +1,102 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <fieldset class="common-fieldset " *ngIf="listshow==true; else elseBlock">
+          <legend class="rounded">TramsConditoin</legend>
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true"> <i class=" fa fa-plus"></i>
+            Add</button>
+          <div class="terms-table">
+            <div class="table-responsive ">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th class="sl-th">Serial</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th class="actions">actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tramsconditoin of tramsconditoinall; let num = index">
+
+                    <td class="sl-td text-center">{{num+1}}</td>
+                    <td>{{tramsconditoin.description}}</td>
+                    <td><span *ngIf="tramsconditoin.type=='1'">Indent</span><span
+                        *ngIf="tramsconditoin.type=='2'">Purchase</span></td>
+                    <td>
+                      <i class="btn btn-success btn-sm" (click)="btnUpdate(tramsconditoin)"
+                        *ngIf="tramsconditoin.isActive==true">Active</i>
+                      <i class="btn btn-success btn-sm" (click)="btnUpdate(tramsconditoin)"
+                        *ngIf="tramsconditoin.isActive==false">Deactive</i>
+                    </td>
+
+                    <td class="actions">
+                      <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(tramsconditoin)">
+                        <i class=" fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="btnDelete(tramsconditoin)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+            <legend class="rounded">add termscondition</legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+
+              <div class="form-group">
+                <label class="  control-label" for="form-control-1">Description</label>
+                <textarea rows="3" id="form-control-1" class="form-control" type="text" formControlName="description"
+                  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                  <div *ngIf="f.description.errors.required">Description is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="  control-label" for="form-control-1">Type</label>
+                <select formControlName="type" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.type.errors }">
+                  <option value="0">Choose option</option>
+                  <option value="1">Indent </option>
+                  <option value="2">Purchase </option>
+                  <option value="3">Purchase Order </option>
+                  <option value="4">Purchase Return </option>
+                </select>
+                <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                  <div *ngIf="f.type.errors.required">Type is required</div>
+                </div>
+              </div>
+
+              <div class="text-center mt-20">
+
+                <button class="btn cancel-btn mr-3" type="reset" (click)="onReset()">Cancel</button>
+                <button class="btn save-btn">Save</button>
+              </div>
+            </form>
+          </fieldset>
+
+
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<nb-card>
+  <nb-card-header>
+    TramsConditoin <span> </span>
+  </nb-card-header>
+  <nb-card-body>
+
+
+  </nb-card-body>
+</nb-card>

@@ -1,0 +1,131 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <legend class="rounded">Company </legend>
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true && isSingleCompany!=true" >
+            <i class=" fa fa-plus"></i>
+            add
+          </button>
+          <div class="company-list-table">
+            <div class="table-responsive">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <!-- <th style="width: 32px"></th> -->
+                    <th class="sl-th">Serial</th>
+                    <th>Company Name</th>
+                    <th>Address</th>
+                    <th class="text-center">Vat Reg</th>
+                    <th class="text-center">Mobile</th>
+                    <th class="text-center actions">action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let company of companyall; let num = index">
+                    <!-- <td>
+                    </td> -->
+                    <td class="sl-td text-center">{{num+1}}</td>
+                    <td>{{company.companyName}}</td>
+                    <td>{{company.address}}</td>
+                    <td class="text-center">{{company.vatRegNo }}</td>
+                    <td class="text-center">{{company.mobile}}</td>
+                    <td class="actions text-center">
+                      <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(company)">
+                        <i class=" fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="btnDelete(company)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </fieldset>
+
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+            <legend class="rounded">add new Company </legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Company Name</label>
+                  <input id="form-control-1" class="form-control" type="hidden" formControlName="Id">
+
+                  <input id="form-control-1" class="form-control" type="text" formControlName="CompanyName"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.CompanyName.errors }">
+                  <div *ngIf="submitted && f.CompanyName.errors" class="invalid-feedback">
+                    <div *ngIf="f.CompanyName.errors.required">Company Name is required</div>
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Phone</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="Phone"
+                    class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Mobile</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="Mobile"
+                    pattern="^\d{11}$" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Mobile.errors }">
+                  <div *ngIf="submitted && f.Mobile.errors" class="invalid-feedback">
+                    <div *ngIf="f.Mobile.errors.required">Mobile is required</div>
+                    <div *ngIf="f.Mobile.errors.pattern">Invalid Mobile Number</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Fax</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="Fax"
+                    class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">VatRegNo</label>
+                  <input id="form-control-1" class="form-control" type="VatRegNo" formControlName="VatRegNo"
+                    class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Image</label>
+                  <input id="form-control-1" accept='image/*' class="form-control" type="file"
+                    (change)="onSelectFile($event)" formControlName="Url" class="form-control">
+
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngIf="image">
+                  <label class="control-label" for="form-control-1"></label>
+                  <img [src]='image' />
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <label class=" control-label" for="form-control-1">Address</label>
+                  <!-- <input id="form-control-1" class="form-control" type="text" formControlName="Address"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Address.errors }"> -->
+                  <textarea id="form-control-1" formControlName="Address" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.Address.errors }"></textarea>
+
+                  <div *ngIf="submitted && f.Address.errors" class="invalid-feedback">
+                    <div *ngIf="f.Address.errors.required">Address is required</div>
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="text-center">
+
+                    <button class="btn btn-secondary mr-1 cancel-btn" type="reset" (click)="onReset()">Cancel</button>
+                    <button class="btn btn-primary save-btn">Save</button>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </fieldset>
+
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</section>

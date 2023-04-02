@@ -1,0 +1,179 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <legend class="rounded">Employee</legend>
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true"> <i class=" fa fa-plus"></i>
+            Add</button>
+          <div class="employee-list-table">
+            <div class="table-responsive ">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+
+                    <th class="sl-th">Serial</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Joining Date</th>
+                    <th>Branch Name</th>
+                    <th>Designation</th>
+
+                    <th>Department Name</th>
+
+                    <th class="actions text-center">Acton</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let employee of employeeall; let num = index">
+
+                    <td class="sl-td text-center">{{num+1}}</td>
+                    <td>{{employee.employeeName}}</td>
+                    <td>{{employee.mobile}}</td>
+                    <td>{{employee.address}}</td>
+                    <td class="text-lowercase">{{employee.email}}</td>
+                    <td>{{employee.joinDate | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{employee.branchName}}</td>
+                    <!-- <td>{{employee.sectionName}}</td> -->
+                    <td>{{employee.designationName}}</td>
+                    <td>{{employee.departmentName}}</td>
+
+
+                    <td class="actions">
+                      <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(employee)">
+                        <i class=" fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="btnDelete(employee)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+            <legend class="rounded">add employee</legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Name</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="employeeName"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.employeeName.errors }">
+                  <div *ngIf="submitted && f.employeeName.errors" class="invalid-feedback">
+                    <div *ngIf="f.employeeName.errors.required">Name is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Mobile</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="mobile"
+                    pattern="^\d{11}$" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }">
+                  <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                    <div *ngIf="f.mobile.errors.required">mobile is required</div>
+                    <div *ngIf="f.mobile.errors.pattern">Invalid Mobile Number</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Address</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="address"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                  <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                    <div *ngIf="f.address.errors.required">Address is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Email</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="email"
+                    pattern="[a-z0-9]+@[a-z]+\.[a-z]{2,3}" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                  <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.pattern">Invalid Email</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Joining Date</label>
+                  <input nbInput placeholder="Joining Date" [nbDatepicker]="picker" formControlName="joinDate"
+                    [ngClass]="{ 'is-invalid': submitted && f.joinDate.errors }">
+                  <nb-datepicker #picker></nb-datepicker>
+                  <div *ngIf="submitted && f.joinDate.errors" class="invalid-feedback">
+                    <div *ngIf="f.joinDate.errors.required">Join Date is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Company Name</label>
+                  <nb-select [(selected)]="selectedItems" placeholder="Select"
+                    style="max-width: 100% !important;width: 100%;" formControlName="CompanyIdlist"
+                    (ngModelChange)="OnCompanySelect($event)" [ngModel]="CompanyIdlist">
+                    <nb-option *ngFor="let company of companyall; let num = index"
+                      [value]="company.id">{{company.companyName}}
+                    </nb-option>
+                  </nb-select>
+                  <div *ngIf="submitted && f.CompanyIdlist.errors" class="invalid-feedback">
+                    <div *ngIf="f.CompanyIdlist.errors.required">companyName is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Branch Name</label>
+                  <nb-select [(selected)]="selectedItemsbranch" placeholder="Select"
+                    style="max-width: 100% !important;width: 100%;" formControlName="branchId"
+                    (ngModelChange)="OnBranchSelect($event)" [ngModel]="BranchIdlist">
+                    <nb-option *ngFor="let branch of branchallfilter; let num = index" [value]="branch.id"
+                      aria-selected="true">{{branch.branchName}},{{branch.companyName}}
+                    </nb-option>
+                  </nb-select>
+                  <div *ngIf="submitted && f.BranchIdlist.errors" class="invalid-feedback">
+                    <div *ngIf="f.BranchIdlist.errors.required">Branch is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Designation</label>
+                  <!-- (ngModelChange)="OnCompanySelect($event)"  -->
+                  <nb-select [(selected)]="selectedItemsDesign" placeholder="Select"
+                    style="max-width: 100% !important;width: 100%;" formControlName="designationIdList"
+                    [ngModel]="designationIdList">
+                    <nb-option *ngFor="let design of designationall; let num = index"
+                      [value]="design.designationId">{{design.designationName}}
+                    </nb-option>
+                  </nb-select>
+                  <div *ngIf="submitted && f.designationIdList.errors" class="invalid-feedback">
+                    <div *ngIf="f.designationIdList.errors.required">Designation Name is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Department Name</label>
+                  <nb-select placeholder="Select" style="max-width: 100% !important;width: 100%;"
+                    formControlName="departmentId" (change)="OnBranchSelect($event)" [ngModel]="Departmentlist">
+                    <nb-option *ngFor="let department of departmentallfilter; let num = index"
+                      [value]="department.id">{{department.deptName}}
+                    </nb-option>
+                  </nb-select>
+                  <div *ngIf="submitted && f.Departmentlist.errors" class="invalid-feedback">
+                    <div *ngIf="f.Departmentlist.errors.required">Department is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="text-center mt-20">
+
+                    <button class="btn cancel-btn mr-3" type="reset" (click)="onReset()">Cancel</button>
+                    <button class="btn save-btn">Save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </fieldset>
+
+
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</section>

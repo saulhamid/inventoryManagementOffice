@@ -1,0 +1,130 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <legend class="rounded">branch</legend>
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true">
+            <i class=" fa fa-plus"></i>
+            Add</button>
+          <div class="branch-table-list">
+            <div class="table-responsive ">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                <thead>
+                  <tr>
+                    <!-- <th style="width: 32px"></th> -->
+                    <th class="sl-th">Serial</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Company Name</th>
+                    <th class="text-center actions">action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let branch of branchall; let num = index">
+
+                    <td class="sl-td text-center">{{num+1}}</td>
+                    <td>{{branch.branchCode}}</td>
+                    <td>{{branch.branchName}}</td>
+                    <td>{{branch.companyName}}</td>
+
+                    <td>
+                      <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(branch)">
+                        <i class=" fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="btnDelete(branch)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </fieldset>
+
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+            <legend class="rounded">add new branch</legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Name</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="branchName"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.branchName.errors }">
+                  <div *ngIf="submitted && f.branchName.errors" class="invalid-feedback">
+                    <div *ngIf="f.branchName.errors.required">Branch Name is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Address</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="Address"
+                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Address.errors }">
+                  <div *ngIf="submitted && f.Address.errors" class="invalid-feedback">
+                    <div *ngIf="f.Address.errors.required">Address is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Phone</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="Phone"
+                    class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">Mobile</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="Mobile"
+                    pattern="^\d{11}$" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Mobile.errors }">
+                  <div *ngIf="submitted && f.Mobile.errors" class="invalid-feedback">
+                    <div *ngIf="f.Mobile.errors.required">Mobile is required</div>
+                    <div *ngIf="f.Mobile.errors.pattern">Invalid Mobile Number</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Fax</label>
+                  <input id="form-control-1" class="form-control" type="text" formControlName="Fax"
+                    class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class="control-label" for="form-control-1">VatRegNo</label>
+                  <input id="form-control-1" class="form-control" type="VatRegNo" formControlName="VatRegNo"
+                    class="form-control">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label class=" control-label" for="form-control-1">Company Name</label>
+                  <select formControlName="companyId" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && f.companyId.errors }">
+                    <option [value]="0" selected>Choose Option</option>
+                    <option *ngFor="let company of companyall; let num = index" [value]="company.id">
+                      {{company.companyName}}
+                    </option>
+                  </select>
+                  <div *ngIf="submitted && f.companyId.errors" class="invalid-feedback">
+                    <div *ngIf="f.companyId.errors.required">Company is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <label for="">Is SubBranch ?</label>
+                  <input class="mr-3" type="checkbox" formControlName="IsSubBranch" />
+                  <label class=" control-label d-inline-block" for="form-control-1">Yes</label>
+
+                </div>
+              </div>
+
+
+              <div class="col-12">
+                <div class="text-center">
+
+                  <button class="btn cancel-btn mr-1" type="reset" (click)="onReset()">Cancel</button>
+                  <button class="btn save-btn ">Save</button>
+                </div>
+              </div>
+            </form>
+          </fieldset>
+
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,386 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true">
+            <i class="fa fa-plus"></i>
+            add
+          </button>
+          <legend class="rounded">Product</legend>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <label class="control-label" for="form-control-1">Product Name</label>
+                <input [(ngModel)]="productfilter.productName" (ngModelChange)="onModelChange($event)" nbInput
+                  type="text" placeholder="Product Name" [nbAutocomplete]="autoNgModel" />
+                <nb-autocomplete #autoNgModel>
+                  <nb-option *ngFor="let option of filteredNgModelOptions$ | async" [value]="option">
+                    {{ option }}
+                  </nb-option>
+                </nb-autocomplete>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <label class="control-label" for="form-control-1">Category</label>
+                <nb-select multiple placeholder="Multiple Select" [(ngModel)]="productfilter.categoryID"
+                  (ngModelChange)="onCategoryChange($event)">
+                  <nb-option class="form-control" *ngFor="let category of categoryall; let num = index"
+                    [value]="category.id">{{category.name}}
+                  </nb-option>
+                </nb-select>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <label class="control-label" for="form-control-1">SubCategory</label>
+                <nb-select multiple placeholder="Multiple Select" [(ngModel)]="productfilter.subCategoryId">
+                  <nb-option *ngFor="let subcategory of subfilter; let num = index"
+                    [value]="subcategory.id">{{subcategory.name}}
+                  </nb-option>
+                </nb-select>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <label class="control-label" for="form-control-1">UOM</label>
+                <nb-select multiple placeholder="Multiple Select" [(ngModel)]="productfilter.uomId">
+                  <nb-option *ngFor="let uom of uomall; let num = index" [value]="uom.id">{{uom.uomName}}</nb-option>
+                </nb-select>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <label class="control-label" for="form-control-1">Expire Date from</label>
+                <input nbInput placeholder="Start Date" [nbDatepicker]="picker" [(ngModel)]="productfilter.sexpireDate">
+                <nb-datepicker #picker [min]="min" [max]="max"></nb-datepicker>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+              <div class="form-group">
+                <label class="control-label" for="form-control-1">Expire To </label>
+                <input nbInput placeholder="End Date" [nbDatepicker]="picker1" [(ngModel)]="productfilter.eexpireDate">
+                <nb-datepicker #picker1 [min]="min" [max]="max"></nb-datepicker>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="text-center mt-20">
+                <button class="btn cancel-btn mr-3" type="reset" (click)="onResetfilter()">Cancel</button>
+                <button class="btn btn-primary mr-3" (click)="opeonrpt()">Report</button>
+                <button class="btn save-btn mr-3" (click)="filtersubmit()">Search</button>
+
+
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="products-table">
+                <div class="table-responsive ">
+                  <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                    class="table table-bordered">
+                    <thead>
+                      <tr>
+
+                        <th class="sl-th">Serial</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Category Name</th>
+                        <th>Subcategory Name</th>
+                        <th>UOM </th>
+                        <th>CPU</th>
+                        <th class="actions">actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let product of productall; let num = index">
+
+                        <td class="sl-td">{{num+1}}</td>
+                        <td>{{product.productCode}}</td>
+                        <td>{{product.productName}}</td>
+                        <td>{{product.categoryName}}</td>
+                        <td>{{product.subCategoryName}}</td>
+                        <td>{{product.uomName}}</td>
+                        <td>{{product.cpu}}</td>
+
+                        <td class="actions">
+                          <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(product)">
+                            <i class=" fa fa-edit"></i>
+                          </button>
+                          <button class="btn btn-danger btn-sm" (click)="btnDelete(product)">
+                            <i class=" fa fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+            <legend class="rounded">add product</legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Product Name</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="productName"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.productName.errors }">
+                        <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
+                          <div *ngIf="f.productName.errors.required">Product Name is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Category Name</label>
+                        <select formControlName="categoryId" class="form-control"
+                          (change)="onSelect($event.target.value)"
+                          [ngClass]="{ 'is-invalid': submitted && f.categoryId.errors }">
+                          <option value="">Choose Option</option>
+                          <option *ngFor="let category of categoryall; let num = index" [value]="category.id">
+                            {{category.name}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.categoryId.errors" class="invalid-feedback">
+                          <div *ngIf="f.categoryId.errors.required">Category is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Subcategory Name</label>
+                        <select formControlName="subcategoryId" [disabled]="'true'" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.subcategoryId.errors }">
+                          <option value="">Choose Option</option>
+                          <option *ngFor="let subcategory of subcategoryallfilter; let num = index"
+                            [value]="subcategory.id">{{subcategory.name}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.subcategoryId.errors" class="invalid-feedback">
+                          <div *ngIf="f.subcategoryId.errors.required">Subcategory is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Purchase UOM Name</label>
+                        <select formControlName="UOMId" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.UOMId.errors }">
+                          <option selected value="">Choose Option</option>
+                          <option *ngFor="let uom of uomall; let num = index" [value]="uom.id">{{uom.uomName}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.UOMId.errors" class="invalid-feedback">
+                          <div *ngIf="f.UOMId.errors.required">UOM is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Consume UOM Name</label>
+                        <select formControlName="purchaseUOMId" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.purchaseUOMId.errors }">
+                          <option selected value="">Choose Option</option>
+                          <option *ngFor="let uom of uomall; let num = index" [value]="uom.id">{{uom.uomName}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.purchaseUOMId.errors" class="invalid-feedback">
+                          <div *ngIf="f.purchaseUOMId.errors.required">Consume UOM is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Branch</label>
+                        <select formControlName="OpenbranchId" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.OpenbranchId.errors }">
+                          <option value="0">Choose Option</option>
+                          <optgroup label="Branch">
+                            <option *ngFor="let branch of FrombranchCompany; let num = index" [value]="branch.id">
+                              {{branch.branchName}}
+                            </option>
+                          </optgroup>
+                          <optgroup label="Sub-Branch">
+                            <option *ngFor="let branch of FromSubbranchCompany; let num = index" [value]="branch.id">
+                              {{branch.branchName}}
+                            </option>
+                          </optgroup>
+                        </select>
+                        <div *ngIf="submitted && f.OpenbranchId.errors" class="invalid-feedback">
+                          <div *ngIf="f.OpenbranchId.errors.required">Branch is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Conversion Rate</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="conversionRate"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.conversionRate.errors }">
+                        <div *ngIf="submitted && f.conversionRate.errors" class="invalid-feedback">
+                          <div *ngIf="f.conversionRate.errors.required">conversion Rate is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Description </label>
+                        <textarea id="form-control-1" class="form-control" type="text" value="  "
+                          formControlName="productDescription" class="form-control"></textarea>
+                        <div *ngIf="submitted && f.productDescription.errors" class="invalid-feedback">
+                          <div *ngIf="f.productDescription.errors.required">Product Description is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Box Size</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="boxSize"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.boxSize.errors }">
+                        <div *ngIf="submitted && f.boxSize.errors" class="invalid-feedback">
+                          <div *ngIf="f.boxSize.errors.required">Box Size is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label for="form-control-1">Box Quantity</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="boxQuantity"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.boxQuantity.errors }">
+                        <div *ngIf="submitted && f.boxQuantity.errors" class="invalid-feedback">
+                          <div *ngIf="f.boxQuantity.errors.required">Box Quantity is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" style="display: none;">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1" style="display: none;">Min Order</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="minOrder"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.minOrder.errors }">
+                        <div *ngIf="submitted && f.minOrder.errors" class="invalid-feedback">
+                          <div *ngIf="f.minOrder.errors.required">Min Order is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label " for="form-control-1">Max Order</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="maxOrder"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.maxOrder.errors }">
+                        <div *ngIf="submitted && f.maxOrder.errors" class="invalid-feedback">
+                          <div *ngIf="f.maxOrder.errors.required">Max Order is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class=" control-label" for="form-control-1">Re Order
+                        </label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="reOrderlevel"
+                          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.reOrderlevel.errors }">
+                        <div *ngIf="submitted && f.reOrderlevel.errors" class="invalid-feedback">
+                          <div *ngIf="f.reOrderlevel.errors.required">Max Order is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Opening Stock</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="openingStock"
+                          (change)="openstockcheck($event.target.value)" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.openingStock.errors }">
+                        <div *ngIf="submitted && f.openingStock.errors" class="invalid-feedback">
+                          <div *ngIf="f.openingStock.errors.required">Opening Stock is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Purchase Price</label>
+                        <input id="form-control-1" class="form-control" type="text" formControlName="cpu"
+                          class="form-control">
+                        <div *ngIf="submitted && f.cPU.errors" class="invalid-feedback">
+                          <div *ngIf="f.cPU.errors.required">Purchase Price is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Expire Date</label>
+                        <input nbInput placeholder="Expire Date" [nbDatepicker]="picker" formControlName="expireDate"
+                          [ngClass]="{ 'is-invalid': submitted && f.expireDate.errors }">
+                        <nb-datepicker #picker></nb-datepicker>
+                        <div *ngIf="submitted && f.expireDate.errors" class="invalid-feedback">
+                          <div *ngIf="f.expireDate.errors.required">expireDate is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="Isopening== true" style="display: none;">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Company Name</label>
+                        <select formControlName="companyNameId" class="form-control"
+                          (change)="getBranch($event.target.value)"
+                          [ngClass]="{ 'is-invalid': submitted && f.companyNameId.errors }">
+                          <option value="0">--Select--</option>
+                          <option *ngFor="let company of companyall; let num = index" [value]="company.id">
+                            {{company.companyName}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.companyNameId.errors" class="invalid-feedback">
+                          <div *ngIf="f.companyNameId.errors.required">companyName is required</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" *ngIf="Isopening== true" style="display: none;">
+                      <div class="form-group">
+                        <label class="control-label" for="form-control-1">Branch Name</label>
+                        <select formControlName="OpenbranchId" class="form-control"
+                          [ngClass]="{ 'is-invalid': submitted && f.branchId.errors }">
+                          <option value="0">--Select--</option>
+                          <option *ngFor="let branch of branchall; let num = index" [value]="branch.id">
+                            {{branch.branchName}}
+                          </option>
+                        </select>
+                        <div *ngIf="submitted && f.branchId.errors" class="invalid-feedback">
+                          <div *ngIf="f.branchId.errors.required">Branch is required</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                  <div class="upload-image-sidebar">
+                    <label class="control-label" for="form-control-1">Image</label>
+                    <input id="form-control-1" accept='image/*' class="form-control" type="file"
+                      (change)="onSelectFile($event)" formControlName="Url" class="form-control">
+
+                    <div class="show-img" *ngIf="image">
+                      <label class="control-label" for="form-control-1"></label>
+                      <img [src]='image' class="img" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <div class="text-center">
+                    <button class="btn cancel-btn mr-3" type="reset" (click)="onReset()">Cancel</button>
+                    <button class="btn save-btn">Save</button>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+          </fieldset>
+        </ng-template>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,63 @@
+$logo-color: #222b45;
+$green: #44bd32;
+.common-layout-main {
+  margin: 20px 17px;
+  background: #fff;
+  padding: 20px 0;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  .common-fieldset {
+    padding: 15px 19px 19px !important;
+    border: 1px solid #e9ebec !important;
+    border-radius: 4px;
+    position: relative;
+    legend {
+      text-align: center !important;
+      margin: 0 auto;
+      width: auto;
+      float: none;
+      padding: 4px 20px;
+      background: #e9ebec;
+      border-radius: 4px;
+      text-transform: uppercase;
+      color: $logo-color;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .company-add-btn {
+      background: #44bd32;
+      position: absolute;
+      right: 16px;
+      top: -29px;
+      padding: 1px 15px;
+      font-size: 14px;
+      color: #fff;
+      text-transform: capitalize;
+      border-radius: 4px;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+      -o-border-radius: 4px;
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  button.save-btn {
+    background: $green;
+    border-color: $green;
+    color: #fff;
+  }
+  button.cancel-btn {
+    background: #e84118;
+    border-color: #e84118;
+    color: #fff;
+  }
+  .mt-20 {
+    margin-top: 20px;
+  }
+}

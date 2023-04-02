@@ -1,0 +1,120 @@
+<nb-card>
+    <nb-card-header>
+      Requisition Approved List 
+    </nb-card-header>
+    <nb-card-body>
+                <div class="table-responsive table-border">
+                  <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th style="width: 10px"></th>
+                        <th>Serial</th>
+                        <th>Requisition Id</th>
+                        <th>Branch</th>
+                        <th>Date</th>
+                        <th>Employee Name</th>
+                        <th>Approved Date</th>
+                          <!-- <th>Approved By</th> -->
+                          
+                        <th style="width: 12%">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let branch of requisitionmasterall; let num = index" >
+                        <td>
+                        </td>
+                        <td>{{num+1}} </td>
+                        <td>{{branch.requisitionId}}</td>
+                        <td>{{branch.branchName}}</td>
+                        <td >{{branch.rdt  | date: 'dd/MM/yyyy'}}</td>
+                        <td>{{branch.employeeName}}</td>
+                        <td>{{branch.approvedDate  | date: 'dd/MM/yyyy'}}</td>
+                        <!-- <td>{{branch.approvedBy}}</td> -->
+                        <td class="actions">
+                          <i class="btn  btn-warning  btn-sm" *ngIf="(branch.isApproved==null)" (click)="open2(dialog,branch,'waiting')">Waiting For Approval</i>
+                          <i class="badge badge-success" *ngIf="branch.isApproved==true" >Approved</i> &nbsp;<button class="btn  btn-secondary  btn-sm" *ngIf="branch.isApproved==true" (click)="open2(dialog,branch,'Approved')"> View</button>
+                          
+                          <i class="badge badge-danger" *ngIf="branch.isApproved==false" >Reject</i>  &nbsp;<button class="btn  btn-secondary  btn-sm" *ngIf="branch.isApproved==false" (click)="open2(dialog,branch,'Reject')"> View</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </nb-card-body>
+            </nb-card>
+            <ng-template #dialog let-data let-ref="dialogRef">
+              <nb-card>
+                <nb-card-header>Approval</nb-card-header>
+                <nb-card-body>
+                  <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-1 control-label">Date:</div>
+                    <div class="col-md-3" style="text-align:left;">{{ data.rdt  | date: 'dd/MM/yyyy'}}</div>
+                    <div class="col-md-3 control-label">Employee Name:</div>
+                    <div class="col-md-3">{{ data.employeeName}}</div>
+                  </div>
+                </div>
+                <!-- <div class="form-group"> -->
+                  <div class="row">
+                   
+                    <div class="col-md-3">
+                      <label style="margin-right: 13px;" class="control-label" for="form-control-1" *ngIf="assignDesignLabel==true">Assign To Second: </label>
+                      
+                        <nb-select  multiple placeholder="Multiple Select" (selectedChange)="onSelect($event)" style="width:350px;"  *ngIf="assignDesignMultiSelect==true">
+                          <!-- [(ngModel)]="Requisitionmaster.approvedByTwo" -->
+                          <nb-option class="form-control" style="width:350px;" *ngFor="let design of designationEmpNameall; let num = index"
+                            [value]="design.employeeId">{{design.designationName}} - {{design.employeeName}}
+                          </nb-option>
+                        </nb-select>
+                        <input type="text" [(ngModel)]="assignDesignData" *ngIf="assignDesignDataInputBox==true">
+                      </div>
+
+
+                      <div class="col-sm-3" style="margin-left: 30%;">
+                        <label  class="control-label" for="form-control-1">Remarks: </label>
+                        
+                          <input type="text" class="form-control" name="" id="" [(ngModel)]="remarks">
+                        </div>
+                    
+                  </div>
+                <!-- </div> -->
+                  <div class="table-responsive table-border">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th style="width: 32px"></th>
+                          <th>Serial</th>
+                          <th>Category Name</th>
+                          <th>Product Name</th>
+                          <th>Quantity</th>
+                          <!-- <th>Note</th> -->
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let branch of data.requisitionDetails; let num = index" >
+                          <td>
+                          </td>
+                          <td>{{num+1}} </td>
+                          <td>{{branch.categoryName}}</td>
+                          <td>{{branch.productName}}</td>
+                          <td><input  nbInput fullWidth fieldSize="small" class=" input-sm" [readonly]="(data.isApproved==false)  ||(data.isApproved==true)" [(ngModel)]="branch.rQty"  style="width: 70px;"  /> </td>
+                          <!-- <td><input  nbInput fullWidth fieldSize="small" class=" input-sm"  [(ngModel)]="branch.noteText" style="width: 150px;" /> </td> -->
+                          <!-- ||(data.isApproved==null) -->
+                        
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </nb-card-body>
+                <nb-card-footer class="pull-right" style="text-align:right">
+                  <div >
+                    <!-- (data.isApproved==false) || -->
+                  <button class="btn btn-success" (click)="onApproved(data,ref)" *ngIf=" (data.isApproved==null)" >Approved</button>
+                  <!-- (data.isApproved==false) || -->
+                  <button class="btn btn-warning" (click)="onRejected(data,ref)" *ngIf=" (data.isApproved==null)" >Reject</button>
+                  <button nbButton (click)="ref.close()">Close </button>
+                </div>
+                </nb-card-footer>
+              </nb-card>
+            </ng-template>

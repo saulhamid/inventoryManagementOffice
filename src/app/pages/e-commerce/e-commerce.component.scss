@@ -1,0 +1,80 @@
+$logo-color: #222b45;
+
+.common-layout-main {
+  margin: 20px 17px;
+  background: #fff;
+  padding: 20px 0;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  .common-fieldset {
+    padding: 15px 19px 19px !important;
+    border: 1px solid #e9ebec !important;
+    border-radius: 4px;
+    legend {
+      text-align: center !important;
+      margin: 0 auto;
+      width: auto;
+      float: none;
+      padding: 4px 20px;
+      background: #e9ebec;
+      border-radius: 4px;
+      text-transform: uppercase;
+      color: $logo-color;
+      font-size: 15px;
+      font-weight: 700;
+    }
+  }
+  .reordering-table {
+    .table {
+      margin-bottom: 0;
+      thead {
+        tr {
+          th {
+            padding: 7px 12px;
+            font-size: 16px;
+            text-transform: capitalize;
+            color: $logo-color;
+            font-weight: 600;
+          }
+          th.stock-th {
+            color: red;
+            width: 120px;
+          }
+          th.sl-th {
+            width: 120px;
+            text-align: center;
+          }
+          th.reorder-level-th {
+            width: 220px;
+            text-align: center;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td {
+            font-size: 14px;
+            text-transform: capitalize;
+            padding: 8px 15px;
+          }
+          td.stock-td {
+            width: 120px;
+            color: red;
+            text-transform: capitalize;
+          }
+          td.sl-td {
+            width: 120px;
+            text-align: center;
+          }
+          td.reorder-level-td {
+            width: 220px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

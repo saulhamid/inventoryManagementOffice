@@ -1,0 +1,92 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <legend class="rounded">Department</legend>
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true">
+            <i class=" fa fa-plus"></i>
+            Add
+
+          </button>
+          <div class="department-list-table">
+            <div class="table-responsive ">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th class="sl-th">Serial</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Branch Name</th>
+                    <th class="text-center actions">action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let department of departmentall; let num = index">
+
+                    <td class="sl-td text-center">{{num+1}}</td>
+                    <td>{{department.deptCode}}</td>
+                    <td>{{department.deptName}}</td>
+                    <td>{{department.branchName}}</td>
+
+                    <td class="actions">
+                      <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(department)">
+                        <i class=" fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="btnDelete(department)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+            <legend class="rounded">add deptartment</legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 control-label" for="form-control-1">Department Name</label>
+                  <div class="col-sm-9">
+                    <input id="form-control-1" class="form-control" type="text" formControlName="deptName"
+                      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.deptName.errors }">
+                    <div *ngIf="submitted && f.deptName.errors" class="invalid-feedback">
+                      <div *ngIf="f.deptName.errors.required">Department Name is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <label class="col-sm-3 control-label" for="form-control-1">Branch Name</label>
+                  <div class="col-sm-9">
+                    <select formControlName="branchId" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.branchId.errors }">
+                      <option [value]="0">Choose Option</option>
+                      <option *ngFor="let branch of branchall; let num = index" [value]="branch.id">
+                        {{branch.branchName}}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && f.branchId.errors" class="invalid-feedback">
+                      <div *ngIf="f.branchId.errors.required">branch Name is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+
+                <button class="btn cancel-btn mr-3" type="reset" (click)="onReset()">Cancel</button>
+                <button class="btn save-btn">Save</button>
+              </div>
+            </form>
+          </fieldset>
+
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>

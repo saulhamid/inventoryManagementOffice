@@ -1,0 +1,49 @@
+<nb-card>
+    <nb-card-header>
+      Indent To Purchase Order Process33
+    </nb-card-header>
+    <nb-card-body>
+                <div class="table-responsive table-border" style="overflow-x: hidden;">
+                  <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th style="width: 32px"></th>
+                        <th>Serial</th>
+                        <th>IndentNO</th>
+                        <th>Product Name</th>
+                        <th>Indent QTY</th>
+                        <th>WHQTY</th>
+                        <th>Rate</th>
+                        <th>Supply</th>
+                        <th>POQTY</th>
+                        <th>PO Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let branch of indentProceespovmall; let num = index" >
+                        <td>
+                        </td>
+                        <td>{{num+1}} </td>
+                        <td>{{branch.indentId}}</td>
+                        <td>{{branch.productName}}</td>
+                        <td>{{branch.qty}}</td>
+                        <td>{{branch.stock}}</td>
+                        <td>{{branch.cpu}}</td>
+                        <td > <select class=" input-sm" [(ngModel)]="branch.supplierid" >
+                          <option *ngFor="let supplier of getSupplierProductById(branch.productId); let num = index" [value]="supplier.supplierId">
+                            {{supplier.supplierName}}
+                          </option>
+                          </select>
+                        </td>
+                        <td class="padding:1px"><input type="text" nbInput fullWidth fieldSize="small" class=" input-sm" [(ngModel)]="branch.poqty"></td>
+                        <td class="padding:1px"><input  type="text"  nbInput fullWidth fieldSize="small" class=" input-sm" [(ngModel)]="branch.porate"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- alert alert-success -->
+                  <div class="text-right  groupbutton">
+                    <button class="btn btn-primary mr-1" (click)="onSubmit()">Save</button>
+                </div>
+                </div>
+              </nb-card-body>
+            </nb-card>

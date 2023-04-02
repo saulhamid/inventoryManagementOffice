@@ -1,0 +1,38 @@
+<div class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <fieldset class="common-fieldset">
+          <legend class="rounded">Global Setup (Menu list) </legend>
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <label class="control-label">DirectIndent</label>
+              <div class="input-group form-control">
+                <input type="checkbox" [(ngModel)]="envGlobalSetup.directIndent" />
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <label class=" control-label">Requisition MultipleApprove</label>
+              <div class="input-group form-control">
+                <input type="checkbox" [(ngModel)]="envGlobalSetup.multipleApprove" />
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <label class=" control-label">Single Company</label>
+              <div class="input-group form-control">
+                <input type="checkbox" [(ngModel)]="envGlobalSetup.singleCompany" />
+              </div>
+            </div>
+         
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center ">
+              <button class="btn save-btn mt-20" (click)="Save()">Save</button>
+            </div>
+          </div>
+
+
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,145 @@
+<nb-card>
+    <nb-card-header>
+      Customer <span><button class="btn btn-primary float-right"  (click)="btnadd()" *ngIf="listshow==true">Add</button> </span>
+    </nb-card-header>
+    <nb-card-body>
+
+                <div class="table-responsive table-border" *ngIf="listshow==true; else elseBlock">
+                  <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th style="width: 32px"></th>
+                        <th>Serial</th>
+                        <th>Name</th>
+                        <th>Name Bangla</th>
+                        <th>Mobile</th>
+                        <th>Address</th>
+                        <th>email</th>
+                        <th style="width: 10%"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let customer of customerall; let num = index">
+                        <td>
+                        </td>
+                        <td>{{num+1}}</td>
+                        <td>{{customer.customerName}}</td>
+                        <td>{{customer.customerNameBangla}}</td>
+                        <td>{{customer.phoneNumber}}</td>
+                        <td>{{customer.address}}</td>
+                        <td>{{customer.email}}</td>
+                        <td class="actions">
+                          <i class="btn  btn-warning btn-sm fa fa-edit" (click)="btnEdit(customer)" ></i>
+                          <i class="btn btn-danger btn-sm fa fa-trash" (click)="btnDelete(customer)"  ></i>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <ng-template #elseBlock>
+
+                  <div class="panel-body">
+                    <div class="xs-mt-10 xs-mb-10  ">
+                      <div class="row">
+                        <div class="col-md-8">
+                          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+                            <div class="form-group">
+                              <div class="row">
+                                <label class="col-sm-3 control-label" for="form-control-1">Name</label>
+                                <div class="col-sm-9">
+                                  <input id="form-control-1" class="form-control" type="text" formControlName="customerName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerName.errors }" >
+                                  <div *ngIf="submitted && f.secName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.customerName.errors.required">Name is required</div>
+                                </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="row">
+                                <label class="col-sm-3 control-label" for="form-control-1">Name Bangla</label>
+                                <div class="col-sm-9">
+                                  <input id="form-control-1" class="form-control" type="text" formControlName="customerNameBangla" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.customerNameBangla.errors }" >
+                                  <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                                    <div *ngIf="f.customerNameBangla.errors.required">NameBangla is required</div>
+                                </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="row">
+                                <label class="col-sm-3 control-label" for="form-control-1">Address</label>
+                                <div class="col-sm-9">
+                                  <input id="form-control-1" class="form-control" type="text" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" >
+                                  <div *ngIf="submitted && f.secName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.address.errors.required">Address is required</div>
+                                </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="row">
+                                <label class="col-sm-3 control-label" for="form-control-1">Email</label>
+                                <div class="col-sm-9">
+                                  <input id="form-control-1" class="form-control" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" >
+                                  <div *ngIf="submitted && f.secName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.email.errors.required">Email is required</div>
+                                </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="row">
+                                <label class="col-sm-3 control-label" for="form-control-1">Contact Person</label>
+                                <div class="col-sm-9">
+                                  <input id="form-control-1" class="form-control" type="text" formControlName="phoneNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }" >
+                                  <div *ngIf="submitted && f.PhoneNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="f.phoneNumber.errors.required">Contact Person is required</div>
+                                </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                  <label class="col-sm-3 control-label" for="form-control-1">Contact Person</label>
+                                  <div class="col-sm-9">
+                                    <input id="form-control-1" class="form-control" type="text" formControlName="phoneNumber" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.phoneNumber.errors }" >
+                                    <div *ngIf="submitted && f.PhoneNumber.errors" class="invalid-feedback">
+                                      <div *ngIf="f.phoneNumber.errors.required">Contact Person is required</div>
+                                  </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <div class="row">
+                                  <label class="col-sm-3 control-label" for="form-control-1">Web Address</label>
+                                  <div class="col-sm-9">
+                                    <input id="form-control-1" class="form-control" type="text" formControlName="webAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.webAddress.errors }" >
+                                    <div *ngIf="submitted && f.webAddress.errors" class="invalid-feedback">
+                                      <div *ngIf="f.webAddress.errors.required">Web Address is required</div>
+                                  </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <div class="row">
+                                  <label class="col-sm-3 control-label" for="form-control-1">Fax</label>
+                                  <div class="col-sm-9">
+                                    <input id="form-control-1" class="form-control" type="text" formControlName="fax" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.webAddress.errors }" >
+                                    <div *ngIf="submitted && f.webAddress.errors" class="invalid-feedback">
+                                      <div *ngIf="f.webAddress.errors.required">Fax is required</div>
+                                  </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary mr-1">Save</button>
+                                <button class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+                            </div>
+                        </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+               </ng-template>
+              </nb-card-body>
+            </nb-card>

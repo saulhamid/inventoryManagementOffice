@@ -1,0 +1,91 @@
+<nb-card>
+    <nb-card-header>
+      Purchase 
+    </nb-card-header>
+    <nb-card-body>
+      <div class="panel-body">
+        <div class="xs-mt-10 xs-mb-10  ">
+          <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                  <div class="row">
+                    <label class="col-sm-1 control-label" for="form-control-1">Invoice</label>
+                    <div class="col-sm-2">
+                        <input [(ngModel)]="purchasefilter.invoice" (ngModelChange)="onModelChange($event)" nbInput type="text"
+                        placeholder="Invoice "
+                        [nbAutocomplete]="autoNgModel" />
+                      <nb-autocomplete #autoNgModel>
+                        <nb-option *ngFor="let option of filteredNgModelOptions$ | async" [value]="option">
+                          {{ option }}
+                        </nb-option>
+                      </nb-autocomplete>
+                    </div>
+                    <label class="col-sm-1 control-label" for="form-control-1">Date Range</label>
+                    <div class="col-sm-2">
+                      <input nbInput placeholder="Start Date"    [(ngModel)]="purchasefilter.startDate" [nbDatepicker]="picker" >
+                      <nb-datepicker #picker ></nb-datepicker>
+                    </div>
+                    <div class="col-sm-2">
+                        <input nbInput placeholder="End Date"   [(ngModel)]="purchasefilter.endDate" [nbDatepicker]="picker1" >
+                        <nb-datepicker #picker1 ></nb-datepicker>
+                    </div>
+                    <label class="col-sm-1 control-label" for="form-control-1">Supplier</label>
+                    <div class="col-sm-2">
+                      <nb-select  class="form-control"  multiple placeholder="Multiple Select" class="display:inline" [(ngModel)]="purchasefilter.supId"   >
+                        <nb-option *ngFor="let supplier of supplierall; let num = index" [value]="supplier.id">{{supplier.supplierName}}
+                        </nb-option>
+                      </nb-select>
+                    </div>
+                  </div>
+                  <br/>
+                    <div class="row">
+                      <label class="col-sm-2 control-label" for="form-control-1">Status</label>
+                      <div class="col-sm-2">
+                        <nb-select multiple placeholder="Multiple Select"   [(ngModel)]="purchasefilter.status"  >
+                          <nb-option class="form-control" *ngFor="let branch of statuses; let num = index"
+                            [value]="branch.id">{{branch.text}}
+                          </nb-option>
+                        </nb-select>
+                      </div>
+                    <label class="col-sm-2 control-label" for="form-control-1">Report Type</label>
+                    <div class="col-sm-2">
+                      <select  placeholder=" Select" class="form-control"  [(ngModel)]="purchasefilter.rptType">
+                        <option *ngFor="let report of reportType; let num = index" [value]="report">{{report}}</option>
+                      </select>
+                    </div>
+                    <div class="text-right pull-right">
+                      <button class="btn btn-primary mr-1" (click)="filtersubmit()">Search</button>
+                <button class="btn btn-primary mr-1" (click)="opeonListrpt()">Report</button>
+                <button class="btn btn-secondary" type="reset" (click)="onResetfilter()">Cancel</button>
+                  </div>
+                  </div>
+                </div>
+              <hr />
+            </div>
+          </div>
+        </div>
+      </div>
+                <div class="table-responsive table-border">
+                  <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Serial</th>
+                        <th>Invoice No</th>
+                        <th>Date</th>
+                        <th>Supplier Name </th>
+                        <th style="width: 10%">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let indent of Purchaseorderall; let num = index">
+                        <td>{{num+1}}</td>
+                        <td (click)="open2(dialog,indent)" class="btn btn-success">{{indent.purchaseId}}</td>
+                        <td >{{indent.pdt | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{indent.supName}}</td>
+                        <td> <i class="btn  btn-warning btn-xs fa fa-edit" (click)="opeonrpt(indent.purchaseId)"  ></i></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </nb-card-body>
+            </nb-card>

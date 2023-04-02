@@ -1,0 +1,95 @@
+<section class="common-layout-main">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <fieldset class="common-fieldset" *ngIf="listshow==true; else elseBlock">
+          <button class="btn company-add-btn" (click)="btnadd()" *ngIf="listshow==true">
+            <i class="fa fa-plus"></i>
+            add
+          </button>
+          <legend class="rounded"> Sub Category</legend>
+          <div class="common-lists-table">
+            <div class="table-responsive ">
+              <table id='table' datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th class="sl-th">Serial</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Categor Name</th>
+                    <th class="actions">actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subcategor of subcategoryall; let num = index">
+
+                    <td class="sl-td">{{num+1}}</td>
+                    <td>{{subcategor.code}}</td>
+                    <td>{{subcategor.name}}</td>
+                    <td>{{subcategor.categoryName}}</td>
+
+                    <td class="actions">
+                      <button class="btn  btn-warning btn-sm mr-3" (click)="btnEdit(subcategor)">
+                        <i class=" fa fa-edit"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="btnDelete(subcategor)">
+                        <i class=" fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </fieldset>
+
+        <ng-template #elseBlock>
+          <fieldset class="common-fieldset">
+
+            <legend class="rounded">add sub-category</legend>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                  <div class="form-group">
+                    <label class="control-label" for="form-control-1">Name</label>
+                    <input id="form-control-1" class="form-control" type="text" formControlName="Name"
+                      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+                    <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                      <div *ngIf="f.Name.errors.required">Name is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                  <div class="form-group">
+                    <label class="control-label" for="form-control-1">Category</label>
+                    <select formControlName="CategoryId" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.CategoryId.errors }">
+                      <option value="" disabled>Choose option</option>
+                      <option *ngFor="let category of categoryall; let num = index" [value]="category.id">
+                        {{category.name}}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && f.CategoryId.errors" class="invalid-feedback">
+                      <div *ngIf="f.CategoryId.errors.required">Category is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="text-center">
+                    <button class="btn cancel-btn mr-3" type="reset" (click)="onReset()">Cancel</button>
+                    <button class="btn save-btn">Save</button>
+
+                  </div>
+                </div>
+              </div>
+
+
+            </form>
+          </fieldset>
+
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+@import '../.././app/@theme/styles/themes.scss';
+
+@include nb-install-component() {
+  .list-card {
+      nb
+    nb-card-header {
+      border-bottom: none;
+    }
+
+    nb-card-body {
+      padding: 0;
+    }
+  }
+}
